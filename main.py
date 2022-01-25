@@ -16,9 +16,23 @@ def index():
     return render_template('index.html')
 
 
+@app.route("/api/add_new_board/")
+@json_response
+def insert_new_board():
+    return queries.insertNewBoard()
+
+
+@app.route("/api/boards/<int:board_id>/delete/")
+@json_response
+def delete_board(board_id):
+    print("haha")
+    return queries.delete_board(board_id)
+
+
 @app.route("/api/boards")
 @json_response
 def get_boards():
+    print(queries.get_boards())
     return queries.get_boards()
 
 

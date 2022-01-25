@@ -1,6 +1,20 @@
 import data_manager
 
 
+def insertNewBoard():
+    data_manager.execute_insert(
+        """INSERT INTO boards (title) VALUES ('NEW BOARD');"""
+    )
+
+
+def delete_board(board_id):
+    data_manager.execute_insert(
+        """DELETE FROM boards  WHERE boards.id = %(board_id)s;""",
+        {"board_id": board_id}
+
+    )
+
+
 def get_boards():
     return data_manager.execute_select(
         """SELECT * FROM boards;"""
