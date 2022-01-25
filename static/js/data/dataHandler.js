@@ -1,18 +1,18 @@
 export let dataHandler = {
   getBoards: async function () {
-    const response = await apiGet("/api/boards");
+    const response = await apiGet(`/api/boards`);
     return response;
   },
   getBoard: async function (boardId) {
-    const response = await apiGet("/api/boards/${boardId}/");
+    const response = await apiGet(`/api/boards/${boardId}/`);
     return response;
   },
   getStatuses: async function () {
-    const response = await apiGet("/api/statuses");
+    const response = await apiGet(`/api/statuses`);
     return response;
   },
   getStatus: async function (statusId) {
-    const response = await apiGet("/api/statuses/${statusId}/");
+    const response = await apiGet(`/api/statuses/${statusId}/`);
     return response;
   },
   getCardsByBoardId: async function (boardId) {

@@ -5,12 +5,17 @@ import { domManager } from "../view/domManager.js";
 export let cardsManager = {
   loadCards: async function (boardId) {
     const cards = await dataHandler.getCardsByBoardId(boardId);
+    // if (cards) {
+    //   for(let card of cards){
+    //     card.remove();
+    //   }
+    // }
     for (let card of cards) {
       const cardBuilder = htmlFactory(htmlTemplates.card);
       const content = cardBuilder(card);
       domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
       domManager.addEventListener(
-        `.card[data-card-id="${card.id}"]`,
+        `.card[data-card-id[="${card.id}"]`,
         "click",
         deleteButtonHandler
       );
@@ -18,4 +23,6 @@ export let cardsManager = {
   },
 };
 
-function deleteButtonHandler(clickEvent) {}
+function deleteButtonHandler(clickEvent) {
+  clickEvent.target.remove();
+}
