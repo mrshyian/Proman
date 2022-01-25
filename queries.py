@@ -6,6 +6,10 @@ def get_boards():
         """SELECT * FROM boards;"""
     )
 
+def test():
+    data_manager.execute_insert(
+        """INSERT INTO boards(title) VALUES ('test');"""
+    )
 
 def get_single_board(board_id):
     board_title = data_manager.execute_select(
