@@ -35,6 +35,10 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards/${boardId}/delete/`);
         return response;
     },
+    updateBoardTitle: async function (new_title, boardId) {
+        const response = await apiGet(`/api/boards/${boardId}/${new_title}/`);
+        return response;
+    },
 };
 
 async function apiGet(url) {
