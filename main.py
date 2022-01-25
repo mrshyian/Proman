@@ -61,5 +61,5 @@ def main():
 
 
 if __name__ == '__main__':
-    queries.test();
+    # queries.test();
     main()
