@@ -7,6 +7,7 @@ export let boardsManager = {
     loadBoards: async function () {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
+        console.log(boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);

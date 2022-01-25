@@ -24,6 +24,7 @@ export let dataHandler = {
         return response;
     },
     createNewBoard: async function (boardTitle) {
+        location.reload()
         const response = await apiGet(`/api/add_new_board/`);
         return response;
     },
