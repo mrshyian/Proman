@@ -22,6 +22,11 @@ export let boardsManager = {
                 "click",
                 deleteBoard
             );
+            domManager.addEventListener(
+                `.board-title[data-board-id="${board.id}"]`,
+                "click",
+                changeBoardName
+            );
         }
     },
 };
@@ -46,4 +51,16 @@ function addButtonNewBoard() {
         dataHandler.createNewBoard
     );
 
+}
+
+function changeBoardName(clickEvent){
+    const boardId = clickEvent.target.dataset.boardId;
+    const boards = (document.getElementsByClassName("board-title"))
+    for (var i=0; i<boards.length; i++){
+        if (boards[i].getAttribute('data-board-id')===boardId){
+            const boardName = window.prompt("enter new board name")
+            boards[i].innerHTML = boardName
+        }
+
+    }
 }

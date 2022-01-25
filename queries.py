@@ -70,13 +70,4 @@ def get_card_status(status_id):
         , {"status_id": status_id}
     )
 
-    return status
-
-
-
-
-
-
-
-
-
+    return
