@@ -4,7 +4,14 @@ import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
+
     loadBoards: async function () {
+        var modal = document.getElementById("myModal");
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
         console.log(boards)
@@ -31,6 +38,7 @@ export let boardsManager = {
     },
 };
 
+
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     cardsManager.loadCards(boardId);
@@ -53,21 +61,20 @@ function addButtonNewBoard() {
 
 }
 
-function changeBoardName(clickEvent){
+function changeBoardName(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     const boards = (document.getElementsByClassName("board-title"))
-    for (var i=0; i<boards.length; i++){
-        if (boards[i].getAttribute('data-board-id')===boardId){
-
-            let boardName = window.prompt("enter new board name");
-            while (boardName.length < 4){
-                alert('minimum 4 symbols! try again')
-                boardName = window.prompt("enter new board name");
-            }
-            boards[i].innerHTML = boardName
-            dataHandler.updateBoardTitle(boardName, boardId)
-
-        }
-
+    for (let board of boards) {
+        if (board.getAttribute('data-board-id') === boardId) {
+            board.addEventListener("click", activateModal)
+            document.getElementById("submit-button-rename").addEventListener("click", function (){const val = document.getElementById('new-name-for-board').value;
+                                                                                                                            console.log(val);
+                                                                                                                            board.innerHTML = val;
+                                                                                                                            dataHandler.updateBoardTitle(val, boardId)})
+                                                                                                                                }
     }
+}
+
+function activateModal() {
+    $("#modal-for-rename").modal();
 }
