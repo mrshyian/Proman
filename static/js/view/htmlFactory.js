@@ -23,14 +23,16 @@ function boardBuilder(board) {
                         <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                         <button class="toggle-board-button" data-board-id="${board.id}-close">Delete</button>
                     </div>
-                    
+                    <table class="table">
+                        <tr class="tr-class" data-board-id=${board.id}></tr>
+                    </table>
                 </div>
-                
+          
             </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+    return `<td><div class="card" data-card-id="${card.id}">${card.title}</div></td>`;
 }
 
 

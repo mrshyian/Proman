@@ -6,12 +6,11 @@ export let cardsManager = {
     loadCards: async function (boardId) {
         const cardsFromBase = await dataHandler.getCardsByBoardId(boardId);
         const renderedCardIds = getRenderedCardIds(boardId);
-
         for (let card of cardsFromBase.filter(card => !renderedCardIds.has(card.id))) {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
 
-            domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
+            domManager.addChild(`.tr-class[data-board-id="${boardId}"]`, content);
             domManager.addEventListener(
                 `.card[data-card-id="${card.id}"]`,
                 "click",
