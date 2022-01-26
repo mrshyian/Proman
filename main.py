@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from dotenv import load_dotenv
 
 
@@ -16,27 +16,19 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/api/add_new_board/")
-@json_response
-def insert_new_board():
-    return queries.insertNewBoard()
-
-
-@app.route("/api/boards/<int:board_id>/delete/")
-@json_response
-def delete_board(board_id):
-    return queries.delete_board(board_id)
-
-
-@app.route("/api/boards/<int:board_id>/<new_title>/")
-@json_response
-def update_board_title(new_title, board_id):
-    return queries.update_board_title(board_id, new_title)
-
-
-@app.route("/api/boards")
+@app.route("/api/boards", methods=['POST', 'GET', 'PUT', 'DELETE'])
 @json_response
 def get_boards():
+    if request.method == 'POST':
+        queries.insertNewBoard()
+    elif request.method == 'PUT':
+        board_id = request.json['id']
+        new_title = request.json['title']
+        queries.update_board_title(board_id, new_title)
+    elif request.method == 'DELETE':
+        board_id = request.json['id']
+        queries.delete_board(board_id)
+
     return queries.get_boards()
 
 

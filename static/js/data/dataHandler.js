@@ -23,21 +23,24 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards/cards/${cardId}/`);
         return response;
     },
-    createNewBoard: async function (boardTitle) {
-        location.reload()
-        const response = await apiGet(`/api/add_new_board/`);
-        return response;
+    createNewBoard: async function () {
+        await apiPost('/api/boards');
+        location.reload();
+        return await apiGet('/api/boards');
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
     },
     deleteAnyBoard: async function (boardId) {
-        const response = await apiGet(`/api/boards/${boardId}/delete/`);
-        return response;
+        const data = { 'id': boardId };
+        await apiDelete('/api/boards', data);
     },
-    updateBoardTitle: async function (new_title, boardId) {
-        const response = await apiGet(`/api/boards/${boardId}/${new_title}/`);
-        return response;
+    updateBoardTitle: async function (newTitle, boardId) {
+        const data = {
+                    'id': boardId,
+                    'title': newTitle
+        };
+        await apiPut(`/api/boards`, data);
     },
 };
 
@@ -51,11 +54,38 @@ async function apiGet(url) {
     }
 }
 
-async function apiPost(url, payload) {
+async function apiPost(url) {
+    let response = await fetch(url, {
+        method: "POST",
+    });
+    if (response.status === 200) {
+        await response.json();
+        console.log("POST sent successfully")
+    }
 }
 
-async function apiDelete(url) {
+async function apiDelete(url, data) {
+    let response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+      'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    });
+    if (response.status === 200) {
+        await response.json();
+        console.log("Successful DELETE operation")
+    }
 }
 
-async function apiPut(url) {
+async function apiPut(url, data) {
+    let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+      'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    });
+    if (response.status === 200) {
+        await response.json();
+        console.log("PUT sent successfully")
+    }
 }
