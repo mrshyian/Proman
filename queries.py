@@ -108,5 +108,3 @@ def login(email):
     return query
 
 
-
-

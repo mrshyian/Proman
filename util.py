@@ -33,6 +33,7 @@ YOU_ARE_LOGGED_IN = """"
                 </script>    
                 """
 
+
 INVALID_LOGIN_ATTEMPT = """
                             <script>
                             alert('Invalid login attempt')

@@ -2,10 +2,14 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
-
+export function dupa(){
+    alert("DUpaaaa")
+}
 export let boardsManager = {
 
+
     loadBoards: async function () {
+
         var modal = document.getElementById("myModal");
         window.onclick = function (event) {
             if (event.target === modal) {
@@ -67,7 +71,6 @@ function changeBoardName(clickEvent) {
     for (let board of boards) {
         if (board.getAttribute('data-board-id') === boardId) {
             board.addEventListener("click", activateModal)
-            console.log(board.textContent)
             document.getElementById("submit-button-rename").addEventListener("click", function (){let val = document.getElementById('new-name-for-board').value;
                                                                                                                             if (val.length < 4){
                                                                                                                                 val = board.textContent

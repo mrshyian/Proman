@@ -42,6 +42,12 @@ export let dataHandler = {
         };
         await apiPut(`/api/boards`, data);
     },
+
+    getUserBuyUserId: async function (email) {
+        const response = await apiGet(`/api/login/${email}/`);
+        console.log(response)
+        return response;
+    },
 };
 
 async function apiGet(url) {

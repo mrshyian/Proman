@@ -65,6 +65,25 @@ def get_card_status(status_id):
     return queries.get_card_status(status_id)
 
 
+@app.route("/api/login/<email>/")
+@json_response
+def loginjs(email):
+    print(queries.login(email))
+    return queries.login(email)
+
+
+@app.route("/registration", methods=["POST", "GET"])
+def create_new_account():
+    if request.method == 'POST':
+        firstName = request.form['registrationFirstName']
+        secondName = request.form['registrationSecondName']
+        email = request.form['registrationEmail']
+        telephoneNumber = request.form['TelephoneNumber']
+        hashpassword = util.hash_password(request.form['registrationPassword'])
+        queries.create_account(firstName, secondName, email, telephoneNumber, hashpassword, )
+    return render_template('index.html')
+
+
 def main():
     app.run(debug=True)
 
