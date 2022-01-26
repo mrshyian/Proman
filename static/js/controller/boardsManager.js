@@ -22,8 +22,8 @@ function showHideButtonHandler(clickEvent) {
 }
 
 function deleteBoard(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
     clickEvent.target.parentNode.parentNode.parentNode.remove();
-    const boardId = clickEvent.target.dataset.boardId.slice(0, -6)
     dataHandler.deleteAnyBoard(boardId)
 }
 
