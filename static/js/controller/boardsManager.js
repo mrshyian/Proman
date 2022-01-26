@@ -45,7 +45,7 @@ function showHideButtonHandler(clickEvent) {
 }
 
 function deleteBoard(clickEvent) {
-    clickEvent.target.parentNode.parentNode.parentNode.remove(); /* usuwa w JS NIE W BD */
+    clickEvent.target.parentNode.parentNode.parentNode.remove();
     const boardId = clickEvent.target.dataset.boardId.slice(0, -6)
     dataHandler.deleteAnyBoard(boardId)
 }
@@ -67,7 +67,11 @@ function changeBoardName(clickEvent) {
     for (let board of boards) {
         if (board.getAttribute('data-board-id') === boardId) {
             board.addEventListener("click", activateModal)
-            document.getElementById("submit-button-rename").addEventListener("click", function (){const val = document.getElementById('new-name-for-board').value;
+            console.log(board.textContent)
+            document.getElementById("submit-button-rename").addEventListener("click", function (){let val = document.getElementById('new-name-for-board').value;
+                                                                                                                            if (val.length < 4){
+                                                                                                                                val = board.textContent
+                                                                                                                            }
                                                                                                                             console.log(val);
                                                                                                                             board.innerHTML = val;
                                                                                                                             dataHandler.updateBoardTitle(val, boardId)})
