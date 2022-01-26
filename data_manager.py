@@ -39,6 +39,7 @@ def get_connection_data(db_name=None):
         'user': os.environ.get('MY_PSQL_USER'),
         'host': os.environ.get('MY_PSQL_HOST'),
         'password': os.environ.get('MY_PSQL_PASSWORD')
+        # 'port': 5433
     }
 
 
