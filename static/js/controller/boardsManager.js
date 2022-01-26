@@ -7,6 +7,7 @@ export let boardsManager = {
     loadBoards: async function () {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
+        console.log(boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -20,6 +21,11 @@ export let boardsManager = {
                 `.toggle-board-button[data-board-id="${board.id}-close"]`,
                 "click",
                 deleteBoard
+            );
+            domManager.addEventListener(
+                `.board-title[data-board-id="${board.id}"]`,
+                "click",
+                changeBoardName
             );
         }
     },
@@ -45,4 +51,23 @@ function addButtonNewBoard() {
         dataHandler.createNewBoard
     );
 
+}
+
+function changeBoardName(clickEvent){
+    const boardId = clickEvent.target.dataset.boardId;
+    const boards = (document.getElementsByClassName("board-title"))
+    for (var i=0; i<boards.length; i++){
+        if (boards[i].getAttribute('data-board-id')===boardId){
+
+            let boardName = window.prompt("enter new board name");
+            while (boardName.length < 4){
+                alert('minimum 4 symbols! try again')
+                boardName = window.prompt("enter new board name");
+            }
+            boards[i].innerHTML = boardName
+            dataHandler.updateBoardTitle(boardName, boardId)
+
+        }
+
+    }
 }

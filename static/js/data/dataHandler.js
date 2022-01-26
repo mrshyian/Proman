@@ -24,6 +24,7 @@ export let dataHandler = {
         return response;
     },
     createNewBoard: async function (boardTitle) {
+        location.reload()
         const response = await apiGet(`/api/add_new_board/`);
         return response;
     },
@@ -32,6 +33,10 @@ export let dataHandler = {
     },
     deleteAnyBoard: async function (boardId) {
         const response = await apiGet(`/api/boards/${boardId}/delete/`);
+        return response;
+    },
+    updateBoardTitle: async function (new_title, boardId) {
+        const response = await apiGet(`/api/boards/${boardId}/${new_title}/`);
         return response;
     },
 };

@@ -31,6 +31,12 @@ def delete_board(board_id):
     return queries.delete_board(board_id)
 
 
+@app.route("/api/boards/<int:board_id>/<new_title>/")
+@json_response
+def update_board_title(new_title, board_id):
+    return queries.update_board_title(board_id, new_title)
+
+
 @app.route("/api/boards")
 @json_response
 def get_boards():
@@ -108,4 +114,5 @@ def main():
 
 
 if __name__ == '__main__':
+    # queries.test();
     main()

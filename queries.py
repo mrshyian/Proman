@@ -11,7 +11,17 @@ def delete_board(board_id):
     data_manager.execute_insert(
         """DELETE FROM boards  WHERE boards.id = %(board_id)s;""",
         {"board_id": board_id}
+    )
 
+
+def update_board_title(board_id, new_title):
+    data_manager.execute_insert(
+        """
+            UPDATE boards
+            SET title = %(new_title)s
+            WHERE id = %(board_id)s;""",
+        {"board_id": board_id,
+         "new_title": new_title}
     )
 
 
@@ -19,7 +29,11 @@ def get_boards():
     return data_manager.execute_select(
         """SELECT * FROM boards;"""
     )
-
+#
+# def test():
+#     data_manager.execute_insert(
+#         """INSERT INTO boards(title) VALUES ('test');"""
+#     )
 
 def get_single_board(board_id):
     board_title = data_manager.execute_select(
@@ -56,7 +70,6 @@ def get_card(card_id):
 
 
 def get_statuses():
-
     return data_manager.execute_select(
         """SELECT title FROM statuses;"""
     )
@@ -70,7 +83,7 @@ def get_card_status(status_id):
         , {"status_id": status_id}
     )
 
-    return status
+
 
 
 # Registration
@@ -93,6 +106,7 @@ def login(email):
         , {'email': email}
     )
     return query
+
 
 
 

@@ -47,3 +47,4 @@ ENTER_ALL_VALUES = """
                 window.location='/login'
                 </script>
                 """
+
