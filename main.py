@@ -4,37 +4,70 @@ from dotenv import load_dotenv
 
 from util import json_response
 import mimetypes
-import queires
+import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
 
+
 @app.route("/")
 def index():
-    """
-    This is a one-pager which shows all the boards and cards
-    """
     return render_template('index.html')
+
+
+@app.route("/api/add_new_board/")
+@json_response
+def insert_new_board():
+    return queries.insertNewBoard()
+
+
+@app.route("/api/boards/<int:board_id>/delete/")
+@json_response
+def delete_board(board_id):
+    return queries.delete_board(board_id)
+
+
+@app.route("/api/boards/<int:board_id>/<new_title>/")
+@json_response
+def update_board_title(new_title, board_id):
+    return queries.update_board_title(board_id, new_title)
 
 
 @app.route("/api/boards")
 @json_response
 def get_boards():
-    """
-    All the boards
-    """
-    return queires.get_boards()
+    return queries.get_boards()
+
+
+@app.route("/api/boards/<int:board_id>/")
+@json_response
+def get_single_board(board_id):
+    return queries.get_single_board(board_id)
 
 
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):
-    """
-    All cards that belongs to a board
-    :param board_id: id of the parent board
-    """
-    return queires.get_cards_for_board(board_id)
+    return queries.get_cards_for_board(board_id)
+
+
+@app.route("/api/boards/cards/<int:card_id>/")
+@json_response
+def get_card(card_id: int):
+    return queries.get_card(card_id)
+
+
+@app.route("/api/statuses")
+@json_response
+def get_statuses():
+    return queries.get_statuses()
+
+
+@app.route("/api/statuses/<int:status_id>/")
+@json_response
+def get_card_status(status_id):
+    return queries.get_card_status(status_id)
 
 
 def main():
