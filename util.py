@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import jsonify
+import bcrypt
 
 
 def json_response(func):
@@ -13,4 +14,37 @@ def json_response(func):
         return jsonify(func(*args, **kwargs))
 
     return decorated_function
+
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+YOU_ARE_LOGGED_IN = """"
+                <script>
+                    alert("You are logged in")
+                    window.location= "/"
+                </script>    
+                """
+
+INVALID_LOGIN_ATTEMPT = """
+                            <script>
+                            alert('Invalid login attempt')
+                            window.location='/login'
+                            </script>
+                            """
+
+
+ENTER_ALL_VALUES = """
+                <script>
+                alert('Enter all values!!!')
+                window.location='/login'
+                </script>
+                """
 

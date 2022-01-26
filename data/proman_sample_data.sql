@@ -43,6 +43,16 @@ CREATE TABLE cards (
     card_order  INTEGER             NOT NULL
 );
 
+CREATE TABLE userinfo (
+    id          SERIAL PRIMARY KEY  NOT NULL,
+    name        TEXT                NOT NULL,
+    secondname  TEXT                NOT NULL,
+    email       TEXT                NOT NULL,
+    telephonenumber  INTEGER        NOT NULL,
+    password      VARCHAR           NOT NULL,
+    registration_date  TIME         NOT NULL
+);
+
 ---
 --- insert data
 ---

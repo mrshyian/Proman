@@ -83,4 +83,30 @@ def get_card_status(status_id):
         , {"status_id": status_id}
     )
 
-    return
+
+
+
+# Registration
+
+def create_account(name, secondname, email, telephonenumber, password):
+    query =("""
+        INSERT INTO userinfo
+        (name, email, telephonenumber, password, secondname, registration_date)
+        VALUES (%(name)s, %(email)s, %(telephonenumber)s, %(password)s, %(secondname)s, NOW())""")
+    data_manager.execute_insert(query, {'name': name, 'email': email, 'telephonenumber': telephonenumber, 'password': password, 'secondname': secondname})
+
+
+def login(email):
+    query = data_manager.execute_select(
+        """
+    SELECT password, name, email, id
+    FROM userinfo
+    WHERE email = %(email)s;
+    """
+        , {'email': email}
+    )
+    return query
+
+
+
+
