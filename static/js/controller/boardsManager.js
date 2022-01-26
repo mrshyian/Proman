@@ -6,34 +6,11 @@ import {cardsManager} from "./cardsManager.js";
 export let boardsManager = {
 
     loadBoards: async function () {
-        var modal = document.getElementById("myModal");
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
         console.log(boards)
         for (let board of boards) {
-            const boardBuilder = htmlFactory(htmlTemplates.board);
-            const content = boardBuilder(board);
-            domManager.addChild("#root", content);
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}-close"]`,
-                "click",
-                deleteBoard
-            );
-            domManager.addEventListener(
-                `.board-title[data-board-id="${board.id}"]`,
-                "click",
-                changeBoardName
-            );
+            createBoard(board);
         }
     },
 };
@@ -56,10 +33,37 @@ function addButtonNewBoard() {
     domManager.addEventListener(
         "#new-board",
         "click",
-        dataHandler.createNewBoard
+        createNewBoard
     );
 
 }
+
+async function createNewBoard(){
+    const board = await dataHandler.createNewBoard();
+    createBoard(board);
+}
+
+function createBoard(board){
+    const boardBuilder = htmlFactory(htmlTemplates.board);
+    const content = boardBuilder(board);
+    domManager.addChild("#root", content);
+    domManager.addEventListener(
+        `.toggle-board-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
+    domManager.addEventListener(
+        `.delete-board-button[data-board-id="${board.id}"]`,
+        "click",
+        deleteBoard
+    );
+    domManager.addEventListener(
+        `.board-title[data-board-id="${board.id}"]`,
+        "click",
+        changeBoardName
+    );
+}
+
 
 function changeBoardName(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
@@ -67,17 +71,14 @@ function changeBoardName(clickEvent) {
     for (let board of boards) {
         if (board.getAttribute('data-board-id') === boardId) {
             board.addEventListener("click", activateModal)
-            console.log(board.textContent)
-            document.getElementById("submit-button-rename").addEventListener("click", function (){let val = document.getElementById('new-name-for-board').value;
-                                                                                                                            if (val.length < 4){
-                                                                                                                                val = board.textContent
-                                                                                                                            }
-                                                                                                                            console.log(val);
-                                                                                                                            board.innerHTML = val;
-                                                                                                                            dataHandler.updateBoardTitle(val, boardId)})
-                                                                                                                                }
+            // console.log(board.textContent)
+            document.getElementById("submit-button-rename").addEventListener("click", function () {
+                let val = document.getElementById('new-name-for-board').value;
+            })
+        }
     }
 }
+
 
 function activateModal() {
     $("#modal-for-rename").modal();

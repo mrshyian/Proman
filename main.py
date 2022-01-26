@@ -23,13 +23,14 @@ def index():
 @json_response
 def get_boards():
     if request.method == 'POST':
-        queries.insertNewBoard()
+        return queries.insert_new_board()
     elif request.method == 'PUT':
         board_id = request.json['id']
         new_title = request.json['title']
         queries.update_board_title(board_id, new_title)
     elif request.method == 'DELETE':
         board_id = request.json['id']
+        print(board_id)
         queries.delete_board(board_id)
 
     return queries.get_boards()

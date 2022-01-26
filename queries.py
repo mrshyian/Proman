@@ -1,10 +1,18 @@
 import data_manager
 
 
-def insertNewBoard():
+def insert_new_board():
     data_manager.execute_insert(
         """INSERT INTO boards (title) VALUES ('NEW BOARD');"""
     )
+    response = data_manager.execute_select(
+        """SELECT * FROM boards
+           ORDER BY id DESC
+           LIMIT 1;"""
+    )
+    if response is not None:
+        return response[0]
+
 
 
 def delete_board(board_id):

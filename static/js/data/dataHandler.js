@@ -24,9 +24,9 @@ export let dataHandler = {
         return response;
     },
     createNewBoard: async function () {
-        await apiPost('/api/boards');
-        location.reload();
-        return await apiGet('/api/boards');
+        const response = await apiPost('/api/boards');
+        return response;
+
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
@@ -59,8 +59,7 @@ async function apiPost(url) {
         method: "POST",
     });
     if (response.status === 200) {
-        await response.json();
-        console.log("POST sent successfully")
+        return await response.json();
     }
 }
 

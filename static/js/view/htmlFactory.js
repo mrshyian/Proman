@@ -21,7 +21,9 @@ function boardBuilder(board) {
                     <div class="board-header">
                         <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
                         <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-                        <button class="toggle-board-button" data-board-id="${board.id}-close">Delete</button>
+                        <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
+<!--                        <button class="toggle-board-button" data-board-id="${board.id}-close">Delete</button>-->
+                        <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
                     </div>
                     <table class="table">
                         <tr class="tr-class" data-board-id=${board.id}></tr>
