@@ -20,8 +20,9 @@ function boardBuilder(board) {
                 <div class="board" data-board-id=${board.id}>
                     <div class="board-header">
                         <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
-                        <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-                        <button class="toggle-board-button" data-board-id="${board.id}-close">Delete</button>
+                        <button class="button-delete-board toggle-board-button" data-board-id="${board.id}-close">Delete board</button>
+                        <button class="button-show-cards toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                        <button  class="button-add-card toggle-board-button" data-board-id="${board.id}-add-card">Add card</button>
                     </div>
                     <table class="table">
                         <tr class="tr-class" data-board-id=${board.id}></tr>
@@ -37,6 +38,6 @@ function cardBuilder(card) {
 
 
 export function newBoardButtonBuilder() {
-    return `<button id="new-board" class="toggle-board-button">New Board</button>`
+    return `<button id="new-board" class="button-add-board toggle-board-button">New Board</button>`
 }
 
