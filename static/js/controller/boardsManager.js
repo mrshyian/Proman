@@ -58,7 +58,12 @@ function changeBoardName(clickEvent){
     const boards = (document.getElementsByClassName("board-title"))
     for (var i=0; i<boards.length; i++){
         if (boards[i].getAttribute('data-board-id')===boardId){
+
             let boardName = window.prompt("enter new board name");
+            while (boardName.length < 4){
+                alert('minimum 4 symbols! try again')
+                boardName = window.prompt("enter new board name");
+            }
             boards[i].innerHTML = boardName
             dataHandler.updateBoardTitle(boardName, boardId)
 
