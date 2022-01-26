@@ -67,19 +67,19 @@ function createBoard(board){
 
 function changeBoardName(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    const boards = (document.getElementsByClassName("board-title"))
+    const boards = document.getElementsByClassName("board-title");
     for (let board of boards) {
         if (board.getAttribute('data-board-id') === boardId) {
-            board.addEventListener("click", activateModal)
-            // console.log(board.textContent)
-            document.getElementById("submit-button-rename").addEventListener("click", function () {
-                let val = document.getElementById('new-name-for-board').value;
-            })
+            activateRenameBoardModal(boardId);
         }
     }
 }
 
 
-function activateModal() {
+function activateRenameBoardModal(boardId) {
+    const input = document.getElementById('new-name-for-board');
+    input.value =  "";
+
     $("#modal-for-rename").modal();
+    document.getElementById("submit-button-rename").setAttribute('data-board-id', boardId);
 }

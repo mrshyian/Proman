@@ -35,13 +35,10 @@ def update_board_title(board_id, new_title):
 
 def get_boards():
     return data_manager.execute_select(
-        """SELECT * FROM boards;"""
+        """SELECT * FROM boards
+           ORDER BY id;"""
     )
-#
-# def test():
-#     data_manager.execute_insert(
-#         """INSERT INTO boards(title) VALUES ('test');"""
-#     )
+
 
 def get_single_board(board_id):
     board_title = data_manager.execute_select(
