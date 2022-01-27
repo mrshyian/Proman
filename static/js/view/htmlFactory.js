@@ -50,7 +50,7 @@ function boardBuilder(board, cardStatuses=CARDsSTATUS) {
 
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" style="width: 96%;">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}" style="width: 90%; text-align: center">${card.title}<span style='display: inline' id="${card.id}-span">x</span></div>`;
 }
 
 
