@@ -1,5 +1,5 @@
 import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates, newBoardButtonBuilder} from "../view/htmlFactory.js";
+import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 
@@ -11,21 +11,23 @@ export let boardsManager = {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
-            createBoard(board);
+            await createBoard(board);
         }
     },
 };
 
 
-function showHideButtonHandler(clickEvent) {
-    var nameButton = clickEvent.target.textContent
+async function showHideButtonHandler(clickEvent) {
+    const buttonName = clickEvent.target.textContent;
     const boardId = clickEvent.target.dataset.boardId;
-    if (nameButton === 'Show Cards'){
-        cardsManager.loadCards(boardId);
+    if (buttonName === 'Show Cards'){
+        const statusContent = await statusColumnsBuilder();
+        domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"]` , statusContent);
+        await cardsManager.loadCards(boardId);
         clickEvent.target.innerHTML = 'Hide Cards'
-    } else if (nameButton === 'Hide Cards'){
+    } else if (buttonName === 'Hide Cards'){
         clickEvent.target.innerHTML = 'Show Cards'
-        cardsManager.hideCards(boardId);
+        await cardsManager.hideCards(boardId);
     }
 }
 
