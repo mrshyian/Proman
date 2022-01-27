@@ -9,8 +9,9 @@ export let cardsManager = {
         for (let card of cardsFromBase.filter(card => !renderedCardIds.has(card.id))) {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
+            const cardStatusId = await dataHandler.getStatus(card.id);
 
-            domManager.addChild(`.tr-class[data-board-id="${boardId}"]`, content);
+            domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
                 `.card[data-card-id="${card.id}"]`,
                 "click",
@@ -41,4 +42,8 @@ function getCardsOnBoard(boardId) {
     const cardsOnBoard = boardComponents.getElementsByClassName("card");
 
     return cardsOnBoard;
+}
+
+function addNewCardOnBoard(){
+
 }

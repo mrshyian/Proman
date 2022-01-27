@@ -8,7 +8,6 @@ export let boardsManager = {
     loadBoards: async function () {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
-        console.log(boards)
         for (let board of boards) {
             createBoard(board);
         }
@@ -28,7 +27,7 @@ function deleteBoard(clickEvent) {
 }
 
 function addButtonNewBoard() {
-    var content = newBoardButtonBuilder()
+    const content = newBoardButtonBuilder()
     domManager.addChild("#root", content);
     domManager.addEventListener(
         "#new-board",
@@ -43,9 +42,9 @@ async function createNewBoard(){
     createBoard(board);
 }
 
-function createBoard(board){
+async function createBoard(board){
     const boardBuilder = htmlFactory(htmlTemplates.board);
-    const content = boardBuilder(board);
+    const content = await boardBuilder(board);
     domManager.addChild("#root", content);
     domManager.addEventListener(
         `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -61,6 +60,11 @@ function createBoard(board){
         `.board-title[data-board-id="${board.id}"]`,
         "click",
         changeBoardName
+    );
+    domManager.addEventListener(
+        `.add-card-button[data-board-id="${board.id}"]`,
+        "click",
+        addCard
     );
 }
 
@@ -82,4 +86,14 @@ function activateRenameBoardModal(boardId) {
 
     $("#modal-for-rename").modal();
     document.getElementById("submit-button-rename").setAttribute('data-board-id', boardId);
+}
+
+///////????????////////
+async function addCard(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    const card = await dataHandler.createNewCard(boardId);
+    const cardBuilder = htmlFactory(htmlTemplates.card);
+    const content = cardBuilder(card);
+
+
 }

@@ -11,9 +11,9 @@ export let dataHandler = {
         const response = await apiGet(`/api/statuses`);
         return response;
     },
-    getStatus: async function (statusId) {
-        const response = await apiGet(`/api/statuses/${statusId}/`);
-        return response;
+    getStatus: async function (cardId) {
+        const response = await apiGet(`/api/cards/${cardId}/status/`);
+        return response[0]['status_id'];
     },
     getCardsByBoardId: async function (boardId) {
         const response = await apiGet(`/api/boards/${boardId}/cards/`);
@@ -28,8 +28,9 @@ export let dataHandler = {
         return response;
 
     },
-    createNewCard: async function (cardTitle, boardId, statusId) {
-        // creates new card, saves it and calls the callback function with its data
+    createNewCard: async function (boardId) {
+        const response = await apiPost(`/api/boards/${boardId}/card`);
+        return response;
     },
     deleteAnyBoard: async function (boardId) {
         const data = { 'id': boardId };

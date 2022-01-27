@@ -1,7 +1,10 @@
+import {dataHandler} from "../data/dataHandler.js";
+
 export const htmlTemplates = {
     board: 1,
     card: 2
 }
+const CARDsSTATUS = await dataHandler.getStatuses();
 
 export function htmlFactory(template) {
     switch (template) {
@@ -15,26 +18,33 @@ export function htmlFactory(template) {
     }
 }
 
-function boardBuilder(board) {
-    return `<div class="board-container" data-board-id=${board.id}>
-                <div class="board" data-board-id=${board.id}>
-                    <div class="board-header">
-                        <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
+
+function boardBuilder(board, cardStatuses=CARDsSTATUS) {
+    let htmlBlockBoard =
+        `<div class="board-container" data-board-id="${board.id}">
+            <div class="board" data-board-id="${board.id}">
+               <div class="board-header">
+                  <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
                         <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                         <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
-<!--                        <button class="toggle-board-button" data-board-id="${board.id}-close">Delete</button>-->
                         <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
-                    </div>
-                    <table class="table">
-                        <tr class="tr-class" data-board-id=${board.id}></tr>
-                    </table>
-                </div>
-          
-            </div>`;
+                  </div> 
+                  <div class="board-body-wrapper" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">`
+    for (const status of cardStatuses){
+        const div = `<div class="status-column" data-status-id="${status.id}" style="width: 25%; text-align: center; vertical-align: middle;"> ${status['title']}</div>`;
+        htmlBlockBoard += div;
+    }
+   htmlBlockBoard +=
+            `
+                  </div>
+               </div>
+        </div>`;
+
+    return htmlBlockBoard;
 }
 
 function cardBuilder(card) {
-    return `<td><div class="card" data-card-id="${card.id}">${card.title}</div></td>`;
+    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
 }
 
 

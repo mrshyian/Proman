@@ -48,6 +48,12 @@ def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
 
 
+@app.route("/api/boards/<int:board_id>/card/")
+@json_response
+def create_card_for_board(board_id: int):
+    return queries.insert_new_card(board_id)
+
+
 @app.route("/api/boards/cards/<int:card_id>/")
 @json_response
 def get_card(card_id: int):
@@ -60,10 +66,10 @@ def get_statuses():
     return queries.get_statuses()
 
 
-@app.route("/api/statuses/<int:status_id>/")
+@app.route("/api/cards/<int:card_id>/status/")
 @json_response
-def get_card_status(status_id):
-    return queries.get_card_status(status_id)
+def get_card_status(card_id):
+    return queries.get_card_status(card_id)
 
 
 def main():

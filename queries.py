@@ -14,6 +14,20 @@ def insert_new_board():
         return response[0]
 
 
+def insert_new_card(board_id):
+    data_manager.execute_insert(
+        """INSERT INTO cards (board_id, status_id, title) 
+           VALUES (%(board_id)s, 1,'new card');""",
+        {"board_id": board_id}
+    )
+    response = data_manager.execute_select(
+        """SELECT * FROM cards
+           ORDER BY id DESC
+           LIMIT 1;"""
+    )
+    if response is not None:
+        return response[0]
+
 
 def delete_board(board_id):
     data_manager.execute_insert(
@@ -76,17 +90,19 @@ def get_card(card_id):
 
 def get_statuses():
     return data_manager.execute_select(
-        """SELECT title FROM statuses;"""
+        """SELECT * FROM statuses;"""
     )
 
 
-def get_card_status(status_id):
+def get_card_status(card_id):
     status = data_manager.execute_select(
         """
-        SELECT * FROM statuses
-        WHERE id = %(status_id)s;"""
-        , {"status_id": status_id}
+        SELECT status_id FROM cards
+        WHERE id = %(card_id)s;"""
+        , {"card_id": card_id}
     )
+
+    return status
 
 
 
