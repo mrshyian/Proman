@@ -41,9 +41,10 @@ function boardBuilder(board) {
 export async function statusColumnsBuilder(){
     let cardStatuses =  await dataHandler.getStatuses();
     let htmlBlock = ``;
+    const amountOfColumns = cardStatuses.length;
 
     for (const status of cardStatuses){
-        const div = `<div class="status-column" data-status-id="${status.id}" style="width: 25%; text-align: center; vertical-align: middle;"> ${status['title']}</div>`;
+        const div = `<div class="status-column" data-status-id="${status.id}" style="width: calc(100%/${amountOfColumns}); text-align: center; vertical-align: middle;"> ${status['title']}</div>`;
         htmlBlock += div;
     }
     return htmlBlock;
