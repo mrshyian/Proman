@@ -21,8 +21,11 @@ export let cardsManager = {
     },
 };
 
-function deleteButtonHandler(clickEvent) {
+export async function deleteButtonHandler(clickEvent) {
+    const cardId = clickEvent.target.dataset.cardId;
+    await dataHandler.deleteCard(cardId);
     clickEvent.target.remove();
+
 }
 
 function getRenderedCardIds(boardId) {
@@ -42,8 +45,4 @@ function getCardsOnBoard(boardId) {
     const cardsOnBoard = boardComponents.getElementsByClassName("card");
 
     return cardsOnBoard;
-}
-
-function addNewCardOnBoard(){
-
 }

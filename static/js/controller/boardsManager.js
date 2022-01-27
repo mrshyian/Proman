@@ -3,6 +3,7 @@ import {htmlFactory, htmlTemplates, newBoardButtonBuilder} from "../view/htmlFac
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 
+
 export let boardsManager = {
 
     loadBoards: async function () {
@@ -20,10 +21,10 @@ function showHideButtonHandler(clickEvent) {
     cardsManager.loadCards(boardId);
 }
 
-function deleteBoard(clickEvent) {
+async function deleteBoard(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     clickEvent.target.parentNode.parentNode.parentNode.remove();
-    dataHandler.deleteAnyBoard(boardId)
+    await dataHandler.deleteAnyBoard(boardId);
 }
 
 function addButtonNewBoard() {
@@ -39,7 +40,7 @@ function addButtonNewBoard() {
 
 async function createNewBoard(){
     const board = await dataHandler.createNewBoard();
-    createBoard(board);
+    await createBoard(board);
 }
 
 async function createBoard(board){
@@ -88,12 +89,18 @@ function activateRenameBoardModal(boardId) {
     document.getElementById("submit-button-rename").setAttribute('data-board-id', boardId);
 }
 
-///////????????////////
+
 async function addCard(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     const card = await dataHandler.createNewCard(boardId);
+    const cardStatusId = card["status_id"];
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
 
-
+    domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
+    domManager.addEventListener(
+        `.card[data-card-id="${card.id}"]`,
+        "click",
+        cardsManager.deleteButtonHandler
+    );
 }

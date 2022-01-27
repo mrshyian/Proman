@@ -29,8 +29,12 @@ export let dataHandler = {
 
     },
     createNewCard: async function (boardId) {
-        const response = await apiPost(`/api/boards/${boardId}/card`);
+        const response = await apiPost(`/api/boards/${boardId}/card/`);
         return response;
+    },
+    deleteCard: async function (cardId) {
+        const data = { 'id': cardId };
+        await apiDelete(`/api/boards/cards/${cardId}/`, data);
     },
     deleteAnyBoard: async function (boardId) {
         const data = { 'id': boardId };

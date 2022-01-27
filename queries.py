@@ -16,8 +16,8 @@ def insert_new_board():
 
 def insert_new_card(board_id):
     data_manager.execute_insert(
-        """INSERT INTO cards (board_id, status_id, title) 
-           VALUES (%(board_id)s, 1,'new card');""",
+        """INSERT INTO cards (board_id, status_id, title, card_order) 
+           VALUES (%(board_id)s, 1,'new card', 1);""",
         {"board_id": board_id}
     )
     response = data_manager.execute_select(
@@ -31,8 +31,27 @@ def insert_new_card(board_id):
 
 def delete_board(board_id):
     data_manager.execute_insert(
-        """DELETE FROM boards  WHERE boards.id = %(board_id)s;""",
+        """SELECT * INTO TABLE todelete FROM boards
+           WHERE id=%(board_id)s;
+            
+           DELETE FROM cards
+           USING todelete
+           WHERE cards.board_id=todelete.id;
+           
+           DROP TABLE IF EXISTS todelete;
+            
+           DELETE FROM boards
+           WHERE id=%(board_id)s;
+            
+           """,
         {"board_id": board_id}
+    )
+
+
+def delete_card(card_id):
+    data_manager.execute_insert(
+        """DELETE FROM cards WHERE id = %(card_id)s;""",
+        {"card_id": card_id}
     )
 
 

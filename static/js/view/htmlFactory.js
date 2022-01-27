@@ -44,7 +44,7 @@ function boardBuilder(board, cardStatuses=CARDsSTATUS) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}" style="width: 96%;">${card.title}</div>`;
 }
 
 

@@ -30,7 +30,6 @@ def get_boards():
         queries.update_board_title(board_id, new_title)
     elif request.method == 'DELETE':
         board_id = request.json['id']
-        print(board_id)
         queries.delete_board(board_id)
 
     return queries.get_boards()
@@ -45,19 +44,23 @@ def get_single_board(board_id):
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):
+
     return queries.get_cards_for_board(board_id)
 
 
-@app.route("/api/boards/<int:board_id>/card/")
+@app.route("/api/boards/<int:board_id>/card/", methods=['POST'])
 @json_response
 def create_card_for_board(board_id: int):
     return queries.insert_new_card(board_id)
 
 
-@app.route("/api/boards/cards/<int:card_id>/")
+@app.route("/api/boards/cards/<int:card_id>/", methods=['GET', 'DELETE'])
 @json_response
 def get_card(card_id: int):
-    return queries.get_card(card_id)
+    if request.method == 'GET':
+        return queries.get_card(card_id)
+    elif request.method == 'DELETE':
+        return queries.delete_card(card_id)
 
 
 @app.route("/api/statuses")
