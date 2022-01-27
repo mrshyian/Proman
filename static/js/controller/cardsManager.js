@@ -13,7 +13,7 @@ export let cardsManager = {
 
             domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
+                `[id="${card.id}-span"]`,
                 "click",
                 deleteButtonHandler
             );
@@ -25,9 +25,9 @@ export let cardsManager = {
 };
 
 export async function deleteButtonHandler(clickEvent) {
-    const cardId = clickEvent.target.dataset.cardId;
+    const cardId = clickEvent.target.parentElement.dataset.cardId;
     await dataHandler.deleteCard(cardId);
-    clickEvent.target.remove();
+    clickEvent.target.parentElement.remove();
 
 }
 
