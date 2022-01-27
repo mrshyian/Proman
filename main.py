@@ -65,12 +65,23 @@ def get_card_status(status_id):
     return queries.get_card_status(status_id)
 
 
-@app.route("/api/login/<email>/")
-@json_response
-def loginjs(email):
-    print(queries.login(email))
-    return queries.login(email)
-
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        if request.form['user_name'] != '' and request.form['password_name'] != '':
+            login = request.form['user_name']
+            password = request.form['password_name']
+            print(queries.login(login)[0]['id'])
+            if util.verify_password(password, queries.login(login)[0]['password']):
+                session['name'] = queries.login(login)[0]['name']
+                session['email'] = queries.login(login)[0]['email']
+                session['id'] = queries.login(login)[0]['id']
+                return util.YOU_ARE_LOGGED_IN
+            else:
+                return util.INVALID_LOGIN_ATTEMPT
+        else:
+            return util.ENTER_ALL_VALUES
+    return render_template('index.html')
 
 @app.route("/registration", methods=["POST", "GET"])
 def create_new_account():
