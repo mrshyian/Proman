@@ -37,8 +37,8 @@ export function initRenameCardModal(){
 
 
 function renameCard(cardId, value){
-    const boardTitle = document.querySelector(`.card[data-card-id="${cardId}"]`);
-    boardTitle.innerHTML = value;
+    const cardTitle = document.querySelector(`.card[data-card-id="${cardId}"]>.card-title`);
+    cardTitle.innerHTML = value;
 }
 
 

@@ -38,7 +38,17 @@ export async function deleteButtonHandler(clickEvent) {
 
 
 function changeCardName(dblclickEvent) {
-    const cardId = dblclickEvent.target.dataset.cardId;
+    let target = dblclickEvent.target;
+
+    if (target.classList.contains('card-remove')) {
+        return;
+    }
+
+    if (target.classList.contains('card-title')) {
+        target = target.parentElement;
+    }
+
+    const cardId = target.dataset.cardId;
     const cards = document.getElementsByClassName("card");
     for (let card of cards) {
         if (card.getAttribute('data-card-id') === cardId) {
