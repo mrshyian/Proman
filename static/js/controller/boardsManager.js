@@ -1,7 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
-import {cardsManager} from "./cardsManager.js";
+import {cardsManager, deleteButtonHandler} from "./cardsManager.js";
 
 
 export let boardsManager = {
@@ -111,6 +111,6 @@ async function addCard(clickEvent) {
     domManager.addEventListener(
         `.card[data-card-id="${card.id}"]`,
         "click",
-        cardsManager.deleteButtonHandler
+        deleteButtonHandler
     );
 }
