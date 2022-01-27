@@ -17,6 +17,11 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            domManager.addEventListener(
+                `.card[data-card-id="${card.id}"]`,
+                "dblclick",
+                changeCardName
+            );
         }
     },
     hideCards: async function (boardId){
@@ -30,6 +35,27 @@ export async function deleteButtonHandler(clickEvent) {
     clickEvent.target.parentElement.remove();
 
 }
+
+
+function changeCardName(dblclickEvent) {
+    const cardId = dblclickEvent.target.dataset.cardId;
+    const cards = document.getElementsByClassName("card");
+    for (let card of cards) {
+        if (card.getAttribute('data-card-id') === cardId) {
+            activateRenameCardModal(cardId);
+        }
+    }
+}
+
+
+function activateRenameCardModal(cardId) {
+    const input = document.getElementById('new-name-for-card');
+    input.value =  "";
+
+    $("#modal-for-rename-card").modal();
+    document.getElementById("submit-button-rename-card").setAttribute('data-card-id', cardId);
+}
+
 
 function getRenderedCardIds(boardId) {
     const cardsOnBoard = getCardsOnBoard(boardId);

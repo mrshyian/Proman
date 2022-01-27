@@ -66,6 +66,17 @@ def update_board_title(board_id, new_title):
     )
 
 
+def update_card_title(card_id, new_title):
+    data_manager.execute_insert(
+        """
+            UPDATE cards
+            SET title = %(new_title)s
+            WHERE id = %(board_id)s;""",
+        {"board_id": card_id,
+         "new_title": new_title}
+    )
+
+
 def get_boards():
     return data_manager.execute_select(
         """SELECT * FROM boards

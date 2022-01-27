@@ -54,13 +54,18 @@ def create_card_for_board(board_id: int):
     return queries.insert_new_card(board_id)
 
 
-@app.route("/api/boards/cards/<int:card_id>/", methods=['GET', 'DELETE'])
+@app.route("/api/boards/cards/<int:card_id>/", methods=['GET', 'DELETE', 'PUT'])
 @json_response
 def get_card(card_id: int):
     if request.method == 'GET':
         return queries.get_card(card_id)
     elif request.method == 'DELETE':
         return queries.delete_card(card_id)
+    elif request.method == 'PUT':
+        card_id = request.json['id']
+        new_title = request.json['title']
+        print(card_id, new_title)
+        queries.update_card_title(card_id, new_title)
 
 
 @app.route("/api/statuses")
