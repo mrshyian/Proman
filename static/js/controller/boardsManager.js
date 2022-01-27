@@ -2,11 +2,9 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
-
+import * as dnd from "../view/dragndrop.js";
 
 export let boardsManager = {
-
-
     loadBoards: async function () {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
@@ -29,6 +27,7 @@ async function showHideButtonHandler(clickEvent) {
         clickEvent.target.innerHTML = 'Show Cards'
         await cardsManager.hideCards(boardId);
     }
+    await dnd.initDragAndDrop();
 }
 
 async function deleteBoard(clickEvent) {

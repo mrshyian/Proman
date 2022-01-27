@@ -56,7 +56,7 @@ export async function statusColumnsBuilder(){
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" style="width: 90%; text-align: center; display: block; float:right">${card.title}<span style='float: right; text-align: center; width: 20px; cursor: pointer; background-color: lightgray;' id="${card.id}-span">x</span></div>`;
+    return `<div class="card draggable" data-card-id="${card.id}" draggable="true" style="width: 90%; text-align: center; display: block; float:right">${card.title}<span style='float: right; text-align: center; width: 20px; cursor: pointer; background-color: lightgray;' id="${card.id}-span">x</span></div>`;
 }
 
 
