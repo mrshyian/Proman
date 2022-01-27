@@ -38,10 +38,6 @@ function boardBuilder(board) {
 }
 
 
-// `<button class="button-show-cards toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-//  <button  class="button-add-card toggle-board-button" data-board-id="${board.id}-add-card">Add card</button>
-// <button class="button-delete-board toggle-board-button" data-board-id="${board.id}-close">Delete board</button>`
-
 export async function statusColumnsBuilder(){
     let cardStatuses =  await dataHandler.getStatuses();
     let htmlBlock = ``;
