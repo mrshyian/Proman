@@ -32,6 +32,7 @@ async function showHideButtonHandler(clickEvent) {
 }
 
 async function deleteBoard(clickEvent) {
+    debugger;
     const boardId = clickEvent.target.dataset.boardId;
     clickEvent.target.parentNode.parentNode.parentNode.remove();
     await dataHandler.deleteAnyBoard(boardId);
@@ -109,7 +110,7 @@ async function addCard(clickEvent) {
 
     domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
-        `.card[data-card-id="${card.id}"]`,
+        `.card[data-card-id="${card.id}"]>.card-remove`,
         "click",
         deleteButtonHandler
     );
