@@ -6,6 +6,7 @@ import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
 
+
     loadBoards: async function () {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
@@ -17,8 +18,15 @@ export let boardsManager = {
 
 
 function showHideButtonHandler(clickEvent) {
+    var nameButton = clickEvent.target.textContent
     const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
+    if (nameButton === 'Show Cards'){
+        cardsManager.loadCards(boardId);
+        clickEvent.target.innerHTML = 'Hide Cards'
+    } else if (nameButton === 'Hide Cards'){
+        clickEvent.target.innerHTML = 'Show Cards'
+        cardsManager.hideCards(boardId);
+    }
 }
 
 async function deleteBoard(clickEvent) {

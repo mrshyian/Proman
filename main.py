@@ -75,6 +75,36 @@ def get_card_status(card_id):
     return queries.get_card_status(card_id)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        if request.form['user_name'] != '' and request.form['password_name'] != '':
+            login = request.form['user_name']
+            password = request.form['password_name']
+            print(queries.login(login)[0]['id'])
+            if util.verify_password(password, queries.login(login)[0]['password']):
+                session['name'] = queries.login(login)[0]['name']
+                session['email'] = queries.login(login)[0]['email']
+                session['id'] = queries.login(login)[0]['id']
+                return util.YOU_ARE_LOGGED_IN
+            else:
+                return util.INVALID_LOGIN_ATTEMPT
+        else:
+            return util.ENTER_ALL_VALUES
+    return render_template('index.html')
+
+@app.route("/registration", methods=["POST", "GET"])
+def create_new_account():
+    if request.method == 'POST':
+        firstName = request.form['registrationFirstName']
+        secondName = request.form['registrationSecondName']
+        email = request.form['registrationEmail']
+        telephoneNumber = request.form['TelephoneNumber']
+        hashpassword = util.hash_password(request.form['registrationPassword'])
+        queries.create_account(firstName, secondName, email, telephoneNumber, hashpassword, )
+    return render_template('index.html')
+
+
 def main():
     app.run(debug=True)
 

@@ -19,6 +19,9 @@ export let cardsManager = {
             );
         }
     },
+    hideCards: async function (boardId){
+        domManager.deleteChilds(`.tr-class[data-board-id="${boardId}"]`);
+    }
 };
 
 export async function deleteButtonHandler(clickEvent) {
