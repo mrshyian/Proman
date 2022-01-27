@@ -20,7 +20,7 @@ export let cardsManager = {
         }
     },
     hideCards: async function (boardId){
-        domManager.deleteChilds(`.tr-class[data-board-id="${boardId}"]`);
+        domManager.deleteChild(`.board-body-wrapper[data-board-id="${boardId}"]`);
     }
 };
 

@@ -41,13 +41,13 @@ function boardBuilder(board, cardStatuses=CARDsSTATUS) {
         </div>`;
 
     return htmlBlockBoard;
-    
-`            <button class="button-show-cards toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-                         <button  class="button-add-card toggle-board-button" data-board-id="${board.id}-add-card">Add card</button>
-                        <button class="button-delete-board toggle-board-button" data-board-id="${board.id}-close">Delete board</button>
-                        </div>`
-                    
 }
+
+
+// `<button class="button-show-cards toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+//  <button  class="button-add-card toggle-board-button" data-board-id="${board.id}-add-card">Add card</button>
+// <button class="button-delete-board toggle-board-button" data-board-id="${board.id}-close">Delete board</button>`
+
 
 function cardBuilder(card) {
     return `<div class="card" data-card-id="${card.id}" style="width: 96%;">${card.title}</div>`;
