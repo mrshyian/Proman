@@ -22,7 +22,7 @@ async function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     if (buttonName === 'Show Cards'){
         const statusContent = await statusColumnsBuilder();
-        domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"]` , statusContent);
+        domManager.addChild(`.board-columns[data-board-id="${boardId}"]` , statusContent);
         await cardsManager.loadCards(boardId);
         clickEvent.target.innerHTML = 'Hide Cards'
     } else if (buttonName === 'Hide Cards'){
@@ -107,7 +107,7 @@ async function addCard(clickEvent) {
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
 
-    domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
+    domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .board-column[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
         `.card[data-card-id="${card.id}"]`,
         "click",

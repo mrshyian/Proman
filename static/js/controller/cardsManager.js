@@ -11,7 +11,7 @@ export let cardsManager = {
             const content = cardBuilder(card);
             const cardStatusId = await dataHandler.getStatus(card.id);
 
-            domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
+            domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
                 `[id="${card.id}-span"]`,
                 "click",
@@ -20,7 +20,7 @@ export let cardsManager = {
         }
     },
     hideCards: async function (boardId){
-        domManager.deleteChild(`.board-body-wrapper[data-board-id="${boardId}"]`);
+        domManager.deleteChild(`.board-columns[data-board-id="${boardId}"]`);
     }
 };
 
