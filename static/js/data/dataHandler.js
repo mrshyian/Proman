@@ -3,10 +3,10 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards`);
         return response;
     },
-    getBoard: async function (boardId) {
-        const response = await apiGet(`/api/boards/${boardId}/`);
-        return response;
-    },
+    // getBoard: async function (boardId) {
+    //     const response = await apiGet(`/api/boards/${boardId}/`);
+    //     return response;
+    // },
     getStatuses: async function () {
         const response = await apiGet(`/api/statuses`);
         return response;
@@ -19,10 +19,10 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards/${boardId}/cards/`);
         return response;
     },
-    getCard: async function (cardId) {
-        const response = await apiGet(`/api/boards/cards/${cardId}/`);
-        return response;
-    },
+    // getCard: async function (cardId) {
+    //     const response = await apiGet(`/api/boards/cards/${cardId}/`);
+    //     return response;
+    // },
     createNewBoard: async function () {
         const response = await apiPost('/api/boards');
         return response;
@@ -42,25 +42,24 @@ export let dataHandler = {
     },
     updateBoardTitle: async function (newTitle, boardId) {
         const data = {
-                    'id': boardId,
-                    'title': newTitle
+            'id': boardId,
+            'title': newTitle
         };
         await apiPut(`/api/boards`, data);
     },
     updateCardTitle: async function (newTitle, cardId) {
-        alert(cardId)
         const data = {
-                    'id': cardId,
-                    'title': newTitle
-            };
+            'id': cardId,
+            'title': newTitle
+        };
         await apiPut(`/api/boards/cards/${cardId}/`, data);
     },
 
-    getUserBuyUserId: async function (email) {
-        const response = await apiGet(`/api/login/${email}/`);
-        console.log(response)
-        return response;
-    },
+    // getUserBuyUserId: async function (email) {
+    //     const response = await apiGet(`/api/login/${email}/`);
+    //     console.log(response)
+    //     return response;
+    // },
 };
 
 async function apiGet(url) {
