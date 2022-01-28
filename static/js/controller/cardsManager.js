@@ -39,19 +39,19 @@ export async function deleteButtonHandler(clickEvent) {
 }
 
 
-function changeCardName(dblclickEvent) {
+export function changeCardName(dblclickEvent) {
     let target = dblclickEvent.target;
 
     if (target.classList.contains('card-remove')) {
         return;
     }
-
     if (target.classList.contains('card-title')) {
         target = target.parentElement;
     }
 
     const cardId = target.dataset.cardId;
     const cards = document.getElementsByClassName("card");
+
     for (let card of cards) {
         if (card.getAttribute('data-card-id') === cardId) {
             activateRenameCardModal(cardId);
