@@ -8,7 +8,6 @@ export function initDragAndDrop() {
 }
 
 export function initDraggables(draggables) {
-
     for (const draggable of draggables) {
         initDraggable(draggable);
     }
@@ -39,7 +38,7 @@ export function initDropZone(dropZone) {
 
 
 export function dragStartHandler(e) {
-    //setDropZonesHighlight();
+    setDropZonesHighlight();
     console.log('start dragging');
     this.classList.add('dragged', 'drag-feedback');
     e.dataTransfer.setData("type/dragged-box", 'dragged');
@@ -84,9 +83,10 @@ export function dropZoneLeaveHandler(e) {
 
 export function dropZoneDropHandler(e) {
     let draggedElement = document.querySelector('.dragged');
+    console.log("dropped");
+    console.log(e.currentTarget);
     e.currentTarget.appendChild(draggedElement);
     e.preventDefault();
-
 }
 
 
