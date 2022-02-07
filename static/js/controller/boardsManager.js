@@ -35,18 +35,6 @@ async function deleteBoard(clickEvent) {
     await dataHandler.deleteAnyBoard(boardId);
 }
 
-
-// export async function deleteButtonHandler(clickEvent) {
-//     let target = clickEvent.target.parentElement;
-//
-//     const cardId = target.dataset.cardId;
-//     await dataHandler.deleteCard(cardId);
-//     target.remove();
-//
-// }
-
-
-
 function addButtonNewBoard() {
     const content = newBoardButtonBuilder()
     domManager.addChild("#root", content);
