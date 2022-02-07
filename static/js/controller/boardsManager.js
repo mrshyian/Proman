@@ -27,7 +27,6 @@ async function showHideButtonHandler(clickEvent) {
         clickEvent.target.innerHTML = 'Show Cards'
         await cardsManager.hideCards(boardId);
     }
-    await dnd.initDragAndDrop();
 }
 
 async function deleteBoard(clickEvent) {
@@ -117,4 +116,6 @@ async function addCard(clickEvent) {
         "dblclick",
         changeCardName
     );
+
+    await dnd.initDragAndDrop();
 }

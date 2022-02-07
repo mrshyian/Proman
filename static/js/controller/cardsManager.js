@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import * as dnd from "../view/dragndrop.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -23,6 +24,7 @@ export let cardsManager = {
                 changeCardName
             );
         }
+        await dnd.initDragAndDrop();
     },
     hideCards: async function (boardId){
         domManager.deleteChild(`.board-columns[data-board-id="${boardId}"]`);
