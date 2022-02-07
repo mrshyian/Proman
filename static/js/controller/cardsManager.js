@@ -13,12 +13,12 @@ export let cardsManager = {
 
             domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-status-id="${cardStatusId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
-                `.card draggable[data-card-id="${card.id}"]>.card-remove`,
+                `.card`+`.draggable[data-card-id="${card.id}"]>.card-remove`,
                 "click",
                 deleteButtonHandler
             );
             domManager.addEventListener(
-                `.card draggable[data-card-id="${card.id}"]`,
+                `.card`+`.draggable[data-card-id="${card.id}"]`,
                 "dblclick",
                 changeCardName
             );
