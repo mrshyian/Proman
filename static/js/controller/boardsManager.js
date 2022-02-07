@@ -2,11 +2,9 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
-
+import * as dnd from "../view/dragndrop.js";
 
 export let boardsManager = {
-
-
     loadBoards: async function () {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
@@ -22,17 +20,17 @@ async function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     if (buttonName === 'Show Cards'){
         const statusContent = await statusColumnsBuilder();
-        domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"]` , statusContent);
+        domManager.addChild(`.board-columns[data-board-id="${boardId}"]` , statusContent);
         await cardsManager.loadCards(boardId);
         clickEvent.target.innerHTML = 'Hide Cards'
     } else if (buttonName === 'Hide Cards'){
         clickEvent.target.innerHTML = 'Show Cards'
         await cardsManager.hideCards(boardId);
     }
+    await dnd.initDragAndDrop();
 }
 
 async function deleteBoard(clickEvent) {
-    debugger;
     const boardId = clickEvent.target.dataset.boardId;
     clickEvent.target.parentNode.parentNode.parentNode.remove();
     await dataHandler.deleteAnyBoard(boardId);
@@ -108,7 +106,7 @@ async function addCard(clickEvent) {
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
 
-    domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
+    domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
         `.card[data-card-id="${card.id}"]>.card-remove`,
         "click",
