@@ -23,7 +23,7 @@ def index():
 @json_response
 def get_boards():
     if request.method == 'POST':
-        queries.insertNewBoard()
+        return queries.insert_new_board()
     elif request.method == 'PUT':
         board_id = request.json['id']
         new_title = request.json['title']
@@ -44,13 +44,28 @@ def get_single_board(board_id):
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):
+
     return queries.get_cards_for_board(board_id)
 
 
-@app.route("/api/boards/cards/<int:card_id>/")
+@app.route("/api/boards/<int:board_id>/card/", methods=['POST'])
+@json_response
+def create_card_for_board(board_id: int):
+    return queries.insert_new_card(board_id)
+
+
+@app.route("/api/boards/cards/<int:card_id>/", methods=['GET', 'DELETE', 'PUT'])
 @json_response
 def get_card(card_id: int):
-    return queries.get_card(card_id)
+    if request.method == 'GET':
+        return queries.get_card(card_id)
+    elif request.method == 'DELETE':
+        return queries.delete_card(card_id)
+    elif request.method == 'PUT':
+        card_id = request.json['id']
+        new_title = request.json['title']
+        print(card_id, new_title)
+        queries.update_card_title(card_id, new_title)
 
 
 @app.route("/api/statuses")
@@ -59,10 +74,10 @@ def get_statuses():
     return queries.get_statuses()
 
 
-@app.route("/api/statuses/<int:status_id>/")
+@app.route("/api/cards/<int:card_id>/status/")
 @json_response
-def get_card_status(status_id):
-    return queries.get_card_status(status_id)
+def get_card_status(card_id):
+    return queries.get_card_status(card_id)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -96,7 +111,9 @@ def create_new_account():
 
 
 def main():
-    app.run(debug=True)
+    app.run(host='0.0.0.0',
+        port=8000,
+        debug=True,)
 
     # Serving the favicon
     with app.app_context():
