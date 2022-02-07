@@ -24,7 +24,7 @@ export let cardsManager = {
                 changeCardName
             );
         }
-        await dnd.initDragAndDrop();
+        dnd.initDragAndDrop();
     },
     hideCards: async function (boardId){
         domManager.deleteChild(`.board-columns[data-board-id="${boardId}"]`);

@@ -117,5 +117,5 @@ async function addCard(clickEvent) {
         changeCardName
     );
 
-    await dnd.initDragAndDrop();
+    dnd.initDragAndDrop();
 }
