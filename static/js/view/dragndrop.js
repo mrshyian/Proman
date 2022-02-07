@@ -1,4 +1,3 @@
-//initDragAndDrop();
 
 export function initDragAndDrop() {
 
@@ -25,7 +24,7 @@ export function initDropZones(dropZones) {
 
 export function initDraggable(draggable) {
     draggable.addEventListener("dragstart", dragStartHandler);
-    //draggable.addEventListener("drag", dragHandler);
+    draggable.addEventListener("drag", dragHandler);
     draggable.addEventListener("dragend", dragEndHandler);
     draggable.setAttribute("draggable", "true");
 }
@@ -49,8 +48,8 @@ export function dragStartHandler(e) {
 }
 
 
-// function dragHandler() {
-// }
+function dragHandler() {
+}
 
 
 export function dragEndHandler() {

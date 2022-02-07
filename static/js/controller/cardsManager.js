@@ -18,7 +18,6 @@ export let cardsManager = {
                 deleteButtonHandler
             );
         }
-
     },
     hideCards: async function (boardId){
         domManager.deleteChild(`.board-columns[data-board-id="${boardId}"]`);
