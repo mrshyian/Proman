@@ -8,6 +8,7 @@ export let domManager = {
     }
   },
   addEventListener(parentIdentifier, eventType, eventHandler) {
+    debugger;
     const parent = document.querySelector(parentIdentifier);
     if (parent) {
       parent.addEventListener(eventType, eventHandler);
