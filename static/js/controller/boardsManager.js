@@ -31,9 +31,21 @@ async function showHideButtonHandler(clickEvent) {
 
 async function deleteBoard(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    clickEvent.target.parentNode.parentNode.parentNode.remove();
+    clickEvent.target.parentNode.parentNode.remove();
     await dataHandler.deleteAnyBoard(boardId);
 }
+
+
+// export async function deleteButtonHandler(clickEvent) {
+//     let target = clickEvent.target.parentElement;
+//
+//     const cardId = target.dataset.cardId;
+//     await dataHandler.deleteCard(cardId);
+//     target.remove();
+//
+// }
+
+
 
 function addButtonNewBoard() {
     const content = newBoardButtonBuilder()

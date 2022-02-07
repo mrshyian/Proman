@@ -40,7 +40,6 @@ export async function deleteButtonHandler(clickEvent) {
 
 }
 
-
 export function changeCardName(dblclickEvent) {
     let target = dblclickEvent.target;
 
