@@ -15,7 +15,7 @@ export let domManager = {
       console.error("could not find such html element: " + parentIdentifier);
     }
   },
-  deleteChilds(parentIdentifier) {
+  deleteChild(parentIdentifier) {
      const parent = document.querySelector(parentIdentifier);
      if (parent) {
       parent.innerHTML = ""

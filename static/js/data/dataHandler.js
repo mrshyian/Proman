@@ -3,33 +3,38 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards`);
         return response;
     },
-    getBoard: async function (boardId) {
-        const response = await apiGet(`/api/boards/${boardId}/`);
-        return response;
-    },
+    // getBoard: async function (boardId) {
+    //     const response = await apiGet(`/api/boards/${boardId}/`);
+    //     return response;
+    // },
     getStatuses: async function () {
         const response = await apiGet(`/api/statuses`);
         return response;
     },
-    getStatus: async function (statusId) {
-        const response = await apiGet(`/api/statuses/${statusId}/`);
-        return response;
+    getStatus: async function (cardId) {
+        const response = await apiGet(`/api/cards/${cardId}/status/`);
+        return response[0]['status_id'];
     },
     getCardsByBoardId: async function (boardId) {
         const response = await apiGet(`/api/boards/${boardId}/cards/`);
         return response;
     },
-    getCard: async function (cardId) {
-        const response = await apiGet(`/api/boards/cards/${cardId}/`);
+    // getCard: async function (cardId) {
+    //     const response = await apiGet(`/api/boards/cards/${cardId}/`);
+    //     return response;
+    // },
+    createNewBoard: async function () {
+        const response = await apiPost('/api/boards');
+        return response;
+
+    },
+    createNewCard: async function (boardId) {
+        const response = await apiPost(`/api/boards/${boardId}/card/`);
         return response;
     },
-    createNewBoard: async function () {
-        await apiPost('/api/boards');
-        location.reload();
-        return await apiGet('/api/boards');
-    },
-    createNewCard: async function (cardTitle, boardId, statusId) {
-        // creates new card, saves it and calls the callback function with its data
+    deleteCard: async function (cardId) {
+        const data = { 'id': cardId };
+        await apiDelete(`/api/boards/cards/${cardId}/`, data);
     },
     deleteAnyBoard: async function (boardId) {
         const data = { 'id': boardId };
@@ -37,17 +42,24 @@ export let dataHandler = {
     },
     updateBoardTitle: async function (newTitle, boardId) {
         const data = {
-                    'id': boardId,
-                    'title': newTitle
+            'id': boardId,
+            'title': newTitle
         };
         await apiPut(`/api/boards`, data);
     },
-
-    getUserBuyUserId: async function (email) {
-        const response = await apiGet(`/api/login/${email}/`);
-        console.log(response)
-        return response;
+    updateCardTitle: async function (newTitle, cardId) {
+        const data = {
+            'id': cardId,
+            'title': newTitle
+        };
+        await apiPut(`/api/boards/cards/${cardId}/`, data);
     },
+
+    // getUserBuyUserId: async function (email) {
+    //     const response = await apiGet(`/api/login/${email}/`);
+    //     console.log(response)
+    //     return response;
+    // },
 };
 
 async function apiGet(url) {
@@ -65,8 +77,7 @@ async function apiPost(url) {
         method: "POST",
     });
     if (response.status === 200) {
-        await response.json();
-        console.log("POST sent successfully")
+        return await response.json();
     }
 }
 

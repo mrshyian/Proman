@@ -1,94 +1,122 @@
 import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates, newBoardButtonBuilder} from "../view/htmlFactory.js";
+import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
-import {cardsManager} from "./cardsManager.js";
+import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
+
 
 export let boardsManager = {
 
 
     loadBoards: async function () {
-
-        var modal = document.getElementById("myModal");
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
-        console.log(boards)
         for (let board of boards) {
-            const boardBuilder = htmlFactory(htmlTemplates.board);
-            const content = boardBuilder(board);
-            domManager.addChild("#root", content);
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}-close"]`,
-                "click",
-                deleteBoard
-            );
-            domManager.addEventListener(
-                `.board-title[data-board-id="${board.id}"]`,
-                "click",
-                changeBoardName
-            );
+            await createBoard(board);
         }
     },
 };
 
 
-function showHideButtonHandler(clickEvent) {
-    var nameButton = clickEvent.target.textContent
+async function showHideButtonHandler(clickEvent) {
+    const buttonName = clickEvent.target.textContent;
     const boardId = clickEvent.target.dataset.boardId;
-    if (nameButton === 'Show Cards'){
-        cardsManager.loadCards(boardId);
+    if (buttonName === 'Show Cards'){
+        const statusContent = await statusColumnsBuilder();
+        domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"]` , statusContent);
+        await cardsManager.loadCards(boardId);
         clickEvent.target.innerHTML = 'Hide Cards'
-    } else if (nameButton === 'Hide Cards'){
+    } else if (buttonName === 'Hide Cards'){
         clickEvent.target.innerHTML = 'Show Cards'
-        cardsManager.hideCards(boardId);
+        await cardsManager.hideCards(boardId);
     }
 }
 
-function deleteBoard(clickEvent) {
+async function deleteBoard(clickEvent) {
+    debugger;
+    const boardId = clickEvent.target.dataset.boardId;
     clickEvent.target.parentNode.parentNode.parentNode.remove();
-    const boardId = clickEvent.target.dataset.boardId.slice(0, -6)
-    dataHandler.deleteAnyBoard(boardId)
+    await dataHandler.deleteAnyBoard(boardId);
 }
 
 function addButtonNewBoard() {
-    var content = newBoardButtonBuilder()
+    const content = newBoardButtonBuilder()
     domManager.addChild("#root", content);
     domManager.addEventListener(
         "#new-board",
         "click",
-        dataHandler.createNewBoard
+        createNewBoard
     );
 
 }
 
+async function createNewBoard(){
+    const board = await dataHandler.createNewBoard();
+    await createBoard(board);
+}
+
+async function createBoard(board){
+    const boardBuilder = htmlFactory(htmlTemplates.board);
+    const content = await boardBuilder(board);
+    domManager.addChild("#root", content);
+    domManager.addEventListener(
+        `.toggle-board-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
+    domManager.addEventListener(
+        `.delete-board-button[data-board-id="${board.id}"]`,
+        "click",
+        deleteBoard
+    );
+    domManager.addEventListener(
+        `.board-title[data-board-id="${board.id}"]`,
+        "click",
+        changeBoardName
+    );
+    domManager.addEventListener(
+        `.add-card-button[data-board-id="${board.id}"]`,
+        "click",
+        addCard
+    );
+}
+
+
 function changeBoardName(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    const boards = (document.getElementsByClassName("board-title"))
+    const boards = document.getElementsByClassName("board-title");
     for (let board of boards) {
         if (board.getAttribute('data-board-id') === boardId) {
-            board.addEventListener("click", activateModal)
-            document.getElementById("submit-button-rename").addEventListener("click", function (){let val = document.getElementById('new-name-for-board').value;
-                                                                                                                            if (val.length < 4){
-                                                                                                                                val = board.textContent
-                                                                                                                            }
-                                                                                                                            console.log(val);
-                                                                                                                            board.innerHTML = val;
-                                                                                                                            dataHandler.updateBoardTitle(val, boardId)})
-                                                                                                                                }
+            activateRenameBoardModal(boardId);
+        }
     }
 }
 
-function activateModal() {
+
+function activateRenameBoardModal(boardId) {
+    const input = document.getElementById('new-name-for-board');
+    input.value =  "";
+
     $("#modal-for-rename").modal();
+    document.getElementById("submit-button-rename").setAttribute('data-board-id', boardId);
 }
 
 
+async function addCard(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    const card = await dataHandler.createNewCard(boardId);
+    const cardStatusId = card["status_id"];
+    const cardBuilder = htmlFactory(htmlTemplates.card);
+    const content = cardBuilder(card);
+
+    domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
+    domManager.addEventListener(
+        `.card[data-card-id="${card.id}"]>.card-remove`,
+        "click",
+        deleteButtonHandler
+    );
+    domManager.addEventListener(
+        `.card[data-card-id="${card.id}"]`,
+        "dblclick",
+        changeCardName
+    );
+}

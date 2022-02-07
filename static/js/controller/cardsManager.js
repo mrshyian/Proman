@@ -1,5 +1,5 @@
 import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
+import {htmlFactory, htmlTemplates, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 
 export let cardsManager = {
@@ -9,23 +9,65 @@ export let cardsManager = {
         for (let card of cardsFromBase.filter(card => !renderedCardIds.has(card.id))) {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
+            const cardStatusId = await dataHandler.getStatus(card.id);
 
-            domManager.addChild(`.tr-class[data-board-id="${boardId}"]`, content);
+            domManager.addChild(`.board-body-wrapper[data-board-id="${boardId}"] .status-column[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
+                `.card[data-card-id="${card.id}"]>.card-remove`,
                 "click",
                 deleteButtonHandler
+            );
+            domManager.addEventListener(
+                `.card[data-card-id="${card.id}"]`,
+                "dblclick",
+                changeCardName
             );
         }
     },
     hideCards: async function (boardId){
-        domManager.deleteChilds(`.tr-class[data-board-id="${boardId}"]`);
+        domManager.deleteChild(`.board-body-wrapper[data-board-id="${boardId}"]`);
     }
 };
 
-function deleteButtonHandler(clickEvent) {
-    clickEvent.target.remove();
+export async function deleteButtonHandler(clickEvent) {
+    let target = clickEvent.target.parentElement;
+
+    const cardId = target.dataset.cardId;
+    await dataHandler.deleteCard(cardId);
+    target.remove();
+
 }
+
+
+export function changeCardName(dblclickEvent) {
+    let target = dblclickEvent.target;
+
+    if (target.classList.contains('card-remove')) {
+        return;
+    }
+    if (target.classList.contains('card-title')) {
+        target = target.parentElement;
+    }
+
+    const cardId = target.dataset.cardId;
+    const cards = document.getElementsByClassName("card");
+
+    for (let card of cards) {
+        if (card.getAttribute('data-card-id') === cardId) {
+            activateRenameCardModal(cardId);
+        }
+    }
+}
+
+
+function activateRenameCardModal(cardId) {
+    const input = document.getElementById('new-name-for-card');
+    input.value =  "";
+
+    $("#modal-for-rename-card").modal();
+    document.getElementById("submit-button-rename-card").setAttribute('data-card-id', cardId);
+}
+
 
 function getRenderedCardIds(boardId) {
     const cardsOnBoard = getCardsOnBoard(boardId);

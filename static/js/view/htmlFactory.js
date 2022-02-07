@@ -1,7 +1,10 @@
+import {dataHandler} from "../data/dataHandler.js";
+
 export const htmlTemplates = {
     board: 1,
     card: 2
 }
+
 
 export function htmlFactory(template) {
     switch (template) {
@@ -15,25 +18,40 @@ export function htmlFactory(template) {
     }
 }
 
+
 function boardBuilder(board) {
-    return `<div class="board-container" data-board-id=${board.id}>
-                <div class="board" data-board-id=${board.id}>
-                    <div class="board-header">
-                        <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
-                        <button class="button-delete-board toggle-board-button" data-board-id="${board.id}-close">Delete board</button>
-                        <button class="button-show-cards toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-                        <button  class="button-add-card toggle-board-button" data-board-id="${board.id}-add-card">Add card</button>
-                    </div>
-                    <table class="table">
-                        <tr class="tr-class" data-board-id=${board.id}></tr>
-                    </table>
-                </div>
-          
-            </div>`;
+    let htmlBlockBoard =
+        `<div class="board-container" data-board-id="${board.id}">
+            <div class="board" data-board-id="${board.id}">
+               <div class="board-header">
+                  <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
+                        <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                        <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
+                        <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
+                  </div> 
+                  <div class="board-body-wrapper" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
+                  </div>
+               </div>
+        </div>`;
+
+    return htmlBlockBoard;
+}
+
+
+export async function statusColumnsBuilder(){
+    let cardStatuses =  await dataHandler.getStatuses();
+    let htmlBlock = ``;
+    const amountOfColumns = cardStatuses.length;
+
+    for (const status of cardStatuses){
+        const div = `<div class="status-column" data-status-id="${status.id}" style="width: calc(100%/${amountOfColumns}); text-align: center; vertical-align: middle;"> ${status['title']}</div>`;
+        htmlBlock += div;
+    }
+    return htmlBlock;
 }
 
 function cardBuilder(card) {
-    return `<td><div class="card" data-card-id="${card.id}">${card.title}</div></td>`;
+    return `<div class="card" data-card-id="${card.id}" style="width: 90%; text-align: center; display: block; float:right"><span class="card-title">${card.title}</span><span class="card-remove" style='float: right; text-align: center; width: 20px; cursor: pointer; background-color: lightgray;' id="${card.id}-span">x</span></div>`;
 }
 
 

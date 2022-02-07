@@ -3,8 +3,7 @@ window.onload = function () {
     document.getElementById("divHeader").innerHTML = header
     document.getElementById("createAccount").addEventListener("click", activateModal)
     document.getElementById("userLogin").addEventListener("click", activateModal1)
-
-};
+}
 
 var header = `<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">A place to plan your future</a>
