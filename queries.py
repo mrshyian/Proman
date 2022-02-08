@@ -29,6 +29,13 @@ def insert_new_card(board_id):
         return response[0]
 
 
+def insert_new_column():
+    data_manager.execute_insert(
+        """INSERT INTO statuses (title) 
+           VALUES ('new column');""",
+    )
+
+
 def delete_board(board_id):
     data_manager.execute_insert(
         """SELECT * INTO TABLE todelete FROM boards

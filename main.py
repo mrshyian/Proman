@@ -80,6 +80,12 @@ def get_card_status(card_id):
     return queries.get_card_status(card_id)
 
 
+@app.route("/api/boards/<int:board_id>/columns/", methods=['POST'])
+@json_response
+def create_new_column(board_id: int):
+    return queries.insert_new_column()
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
