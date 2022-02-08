@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, session
+from flask import Flask, render_template, url_for, request, session, redirect
 from dotenv import load_dotenv
 
 
@@ -64,7 +64,6 @@ def get_card(card_id: int):
     elif request.method == 'PUT':
         card_id = request.json['id']
         new_title = request.json['title']
-        print(card_id, new_title)
         queries.update_card_title(card_id, new_title)
 
 
@@ -86,17 +85,25 @@ def login():
         if request.form['user_name'] != '' and request.form['password_name'] != '':
             login = request.form['user_name']
             password = request.form['password_name']
-            print(queries.login(login)[0]['id'])
             if util.verify_password(password, queries.login(login)[0]['password']):
                 session['name'] = queries.login(login)[0]['name']
                 session['email'] = queries.login(login)[0]['email']
                 session['id'] = queries.login(login)[0]['id']
-                return util.YOU_ARE_LOGGED_IN
+                return render_template('index.html', user_id=session['id'], user_name=session['name'])
             else:
                 return util.INVALID_LOGIN_ATTEMPT
         else:
             return util.ENTER_ALL_VALUES
     return render_template('index.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    session.pop('name', None)
+    session.pop('id', None)
+    return redirect('/')
+
 
 @app.route("/registration", methods=["POST", "GET"])
 def create_new_account():
