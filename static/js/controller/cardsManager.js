@@ -49,7 +49,7 @@ async function archiveButtonHandler(clickEvent) {
     let target = clickEvent.target.parentElement.parentElement;
     const cardId = target.dataset.cardId;
     const isArchivedStatus = target.getAttribute('data-is-archived-status');
-    await dataHandler.archiveCard(cardId, isArchivedStatus);
+    await dataHandler.changeCardArchiveStatus(cardId, isArchivedStatus);
     target.remove();
 }
 
@@ -101,3 +101,4 @@ function getCardsOnBoard(boardId) {
 
     return cardsOnBoard;
 }
+

@@ -2,6 +2,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
+import {changeArchivedModalInnerHTML} from "./modalManager.js";
 import * as dnd from "../view/dragndrop.js";
 
 export let boardsManager = {
@@ -75,6 +76,11 @@ async function createBoard(board){
         "click",
         addCard
     );
+    domManager.addEventListener(
+        `.archived-cards-button[data-board-id="${board.id}"]`,
+        "click",
+        () =>  showArchivedCardList(board)
+    );
 }
 
 
@@ -119,3 +125,19 @@ async function addCard(clickEvent) {
 
      dnd.initDragAndDrop();
 }
+
+
+async function showArchivedCardList(board){
+    let archivedCardListModal = document.getElementById('modal-for-archived-cards');
+
+    if (!archivedCardListModal){
+        const renameModal = document.getElementById('modal-for-rename');
+        archivedCardListModal = renameModal.cloneNode(true);
+        archivedCardListModal.setAttribute('id', 'modal-for-archived-cards');
+        await changeArchivedModalInnerHTML(board, archivedCardListModal);
+        const body = document.getElementsByTagName('body')[0];
+        body.insertBefore(archivedCardListModal,null);
+    }
+    $("#modal-for-archived-cards").modal();
+}
+

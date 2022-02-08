@@ -2,7 +2,8 @@ import {dataHandler} from "../data/dataHandler.js";
 
 export const htmlTemplates = {
     board: 1,
-    card: 2
+    card: 2,
+    archivedCard: 3
 }
 
 export function htmlFactory(template) {
@@ -11,6 +12,8 @@ export function htmlFactory(template) {
             return boardBuilder
         case htmlTemplates.card:
             return cardBuilder
+        case htmlTemplates.archivedCard:
+            return archivedCardBuilder
         default:
             console.error("Undefined template: " + template)
             return () => { return "" }
@@ -25,6 +28,7 @@ function boardBuilder(board) {
                   <span class="board-title" data-board-id="${board.id}">${board.title}</span> 
                   <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                   <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
+                  <button class="archived-cards-button" data-board-id="${board.id}">Archived Cards</button>
                   <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
                </div> 
                   <div class="board-columns" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
@@ -51,10 +55,18 @@ export async function statusColumnsBuilder(){
 }
 
 function cardBuilder(card) {
-     return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block; float:right">
-        <span class="card-title">${card.title}</span>
-        <span class="card-archive" style='text-align: center; display: inline; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
-        <span class="card-remove" style='float: right; text-align: center; display: inline; width: 20px; cursor: pointer; background-color: lightgray;'id="${card.id}-span">x</span>
+     return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block;">
+        <span class="card-title" style="display: block; position: relative; margin-right: calc(10% + 20px); min-height: 20px;">${card.title}</span>
+        <span class="card-archive" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
+        <span class="card-remove" style='position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray;'id="${card.id}-span">x</span>
+        </div>`
+}
+
+
+function archivedCardBuilder(card) {
+     return `<div class="archived-card" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" style="width: 90%; text-align: center; display: block;">
+        <span class="card-title" style="display: block; position: relative; margin-right: calc(10% + 20px); min-height: 20px;">${card.title}</span>
+        <span class="card-restore" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-share" aria-hidden="true"></i></span>
         </div>`
 }
 

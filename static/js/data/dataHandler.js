@@ -19,6 +19,10 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards/${boardId}/cards/`);
         return response;
     },
+    getArchivedCardsByBoardId: async function (boardId) {
+        const response = await apiGet(`/api/boards/${boardId}/cards/archived`);
+        return response;
+    },
     // getCard: async function (cardId) {
     //     const response = await apiGet(`/api/boards/cards/${cardId}/`);
     //     return response;
@@ -54,7 +58,7 @@ export let dataHandler = {
         };
         await apiPut(`/api/boards/cards/${cardId}/`, data);
     },
-    archiveCard: async function (cardId, isArchivedStatus) {
+    changeCardArchiveStatus: async function (cardId, isArchivedStatus) {
         const data = {
             'id': cardId,
             'is_archived_status': isArchivedStatus

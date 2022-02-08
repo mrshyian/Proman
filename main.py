@@ -79,6 +79,12 @@ def get_card_status(card_id):
     return queries.get_card_status(card_id)
 
 
+@app.route("/api/boards/<int:board_id>/cards/archived")
+@json_response
+def get_archived_cards(board_id):
+    return queries.get_archived_cards(board_id)
+
+
 @app.route("/api/board/cards/<int:card_id>/archive", methods=['GET', 'PUT'])
 @json_response
 def change_card_archive_status(card_id):

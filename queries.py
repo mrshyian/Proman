@@ -76,6 +76,7 @@ def update_card_title(card_id, new_title):
          "new_title": new_title}
     )
 
+
 def change_card_archive_status(card_id, is_archived_status):
     data_manager.execute_insert(
         f"""
@@ -104,15 +105,21 @@ def get_single_board(board_id):
 
 
 def get_cards_for_board(board_id):
-    matching_cards = data_manager.execute_select(
-        """
+    return data_manager.execute_select(
+        f"""
         SELECT * FROM cards
-        WHERE board_id = %(board_id)s and cards.is_archived = false
-        ORDER BY card_order;""",
-        {"board_id": board_id}
+        WHERE board_id = {board_id} and cards.is_archived = false
+        ORDER BY card_order;"""
     )
 
-    return matching_cards
+
+def get_archived_cards(board_id):
+    return data_manager.execute_select(
+        f"""
+        SELECT * FROM cards
+        WHERE board_id = {board_id} and cards.is_archived = true
+        ORDER BY cards.id DESC;"""
+    )
 
 
 def get_card(card_id):

@@ -119,24 +119,17 @@ h1{
     min-height: 49px;
 }
 
-/*.board-column-content:empty{*/
-/*    !*This only works if the tag is really empty and there is not even whitespace inside*!*/
-/*    border: 4px solid #cdcdcd;*/
-/*    margin-top: 4px;*/
-/*    border-radius: 10px;*/
-/*    background: #eee;*/
-/*}*/
-
 .board-column-title{
     text-align: center;
 }
 
-.card{
+.card.draggable, .archived-card{
     display: flex;
     position: relative;
     background: #222;
     color: #fff;
     width: 100%;
+    flex-direction: row;
     border-radius: var(--border-radius);
     margin: 4px 0;
     padding: 4px;
@@ -168,8 +161,8 @@ h1{
     cursor: pointer;
 }
 
-.card-title{
-    /*padding-right: 16px;*/
+.card-title,.card-title{
+    margin-bottom: 0;
 }
 
 .cursor {
