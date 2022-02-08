@@ -11,6 +11,11 @@ export let dataHandler = {
         const response = await apiGet(`/api/statuses`);
         return response;
     },
+    createNewColumn: async function (boardId) {
+        await apiPost(`/api/boards/${boardId}/columns/`);
+
+
+    },
     getStatus: async function (cardId) {
         const response = await apiGet(`/api/cards/${cardId}/status/`);
         return response[0]['status_id'];

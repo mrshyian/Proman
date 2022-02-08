@@ -75,6 +75,11 @@ async function createBoard(board){
         "click",
         addCard
     );
+    domManager.addEventListener(
+    `.add-column-button[data-board-id="${board.id}"]`,
+    "click",
+        createNewColumn
+    );
 }
 
 
@@ -118,4 +123,20 @@ async function addCard(clickEvent) {
     );
 
      dnd.initDragAndDrop();
+}
+
+
+async function createNewColumn(clickEvent){
+    const boardId = clickEvent.target.dataset.boardId;
+    await dataHandler.createNewColumn(boardId);
+    console.log('haha')
+    document.getElementById('root').innerHTML = ""
+    addButtonNewBoard()
+    const boards = await dataHandler.getBoards();
+    for (let board of boards) {
+            await createBoard(board);
+        }
+    const statusContent = await statusColumnsBuilder();
+    domManager.addChild(`.board-columns[data-board-id="${boardId}"]` , statusContent);
+    await cardsManager.loadCards(boardId);
 }
