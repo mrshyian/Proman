@@ -42,7 +42,6 @@ def get_connection_data(db_name=None):
         'host': 'localhost',
         'password': 'postgres',
         'port': 5433
-
     }
 
 
