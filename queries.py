@@ -16,8 +16,8 @@ def insert_new_board():
 
 def insert_new_card(board_id):
     data_manager.execute_insert(
-        """INSERT INTO cards (board_id, status_id, title, card_order) 
-           VALUES (%(board_id)s, 1,'new card', 1);""",
+        """INSERT INTO cards (board_id, status_id, title, card_order, is_archived) 
+           VALUES (%(board_id)s, 1,'new card', 1, FALSE);""",
         {"board_id": board_id}
     )
     response = data_manager.execute_select(
@@ -76,6 +76,14 @@ def update_card_title(card_id, new_title):
          "new_title": new_title}
     )
 
+def change_card_archive_status(card_id, is_archived_status):
+    data_manager.execute_insert(
+        f"""
+            UPDATE cards
+            SET is_archived = {is_archived_status}
+            WHERE id = {card_id};"""
+    )
+
 
 def get_boards():
     return data_manager.execute_select(
@@ -99,7 +107,7 @@ def get_cards_for_board(board_id):
     matching_cards = data_manager.execute_select(
         """
         SELECT * FROM cards
-        WHERE board_id = %(board_id)s
+        WHERE board_id = %(board_id)s and cards.is_archived = false
         ORDER BY card_order;""",
         {"board_id": board_id}
     )

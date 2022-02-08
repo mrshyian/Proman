@@ -51,9 +51,10 @@ export async function statusColumnsBuilder(){
 }
 
 function cardBuilder(card) {
-     return `<div class="card draggable" data-card-id="${card.id}" draggable="true" style="width: 90%; text-align: center; display: block; float:right">
+     return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block; float:right">
         <span class="card-title">${card.title}</span>
-        <span class="card-remove" style='float: right; text-align: center; width: 20px; cursor: pointer; background-color: lightgray;'id="${card.id}-span">x</span>
+        <span class="card-archive" style='text-align: center; display: inline; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
+        <span class="card-remove" style='float: right; text-align: center; display: inline; width: 20px; cursor: pointer; background-color: lightgray;'id="${card.id}-span">x</span>
         </div>`
 }
 

@@ -14,6 +14,11 @@ export let cardsManager = {
 
             domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
+                `.card`+`.draggable[data-card-id="${card.id}"]>.card-archive`,
+                "click",
+                archiveButtonHandler
+            );
+            domManager.addEventListener(
                 `.card`+`.draggable[data-card-id="${card.id}"]>.card-remove`,
                 "click",
                 deleteButtonHandler
@@ -38,6 +43,14 @@ export async function deleteButtonHandler(clickEvent) {
     await dataHandler.deleteCard(cardId);
     target.remove();
 
+}
+
+async function archiveButtonHandler(clickEvent) {
+    let target = clickEvent.target.parentElement.parentElement;
+    const cardId = target.dataset.cardId;
+    const isArchivedStatus = target.getAttribute('data-is-archived-status');
+    await dataHandler.archiveCard(cardId, isArchivedStatus);
+    target.remove();
 }
 
 export function changeCardName(dblclickEvent) {

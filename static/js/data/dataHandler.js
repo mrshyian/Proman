@@ -54,6 +54,13 @@ export let dataHandler = {
         };
         await apiPut(`/api/boards/cards/${cardId}/`, data);
     },
+    archiveCard: async function (cardId, isArchivedStatus) {
+        const data = {
+            'id': cardId,
+            'is_archived_status': isArchivedStatus
+        };
+        await apiPut(`/api/board/cards/${cardId}/archive`, data);
+    },
 
     // getUserBuyUserId: async function (email) {
     //     const response = await apiGet(`/api/login/${email}/`);

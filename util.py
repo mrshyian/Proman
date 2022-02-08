@@ -16,6 +16,14 @@ def json_response(func):
     return decorated_function
 
 
+def get_new_is_archived_status(old_status):
+    if old_status == 'false':
+        new_status = 'TRUE'
+    else:
+        new_status = 'FALSE'
+    return new_status
+
+
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
     return hashed_bytes.decode('utf-8')

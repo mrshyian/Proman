@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, session
 from dotenv import load_dotenv
 
 
-from util import json_response
+from util import json_response, get_new_is_archived_status
 import mimetypes, os
 import queries
 import util
@@ -64,7 +64,6 @@ def get_card(card_id: int):
     elif request.method == 'PUT':
         card_id = request.json['id']
         new_title = request.json['title']
-        print(card_id, new_title)
         queries.update_card_title(card_id, new_title)
 
 
@@ -78,6 +77,16 @@ def get_statuses():
 @json_response
 def get_card_status(card_id):
     return queries.get_card_status(card_id)
+
+
+@app.route("/api/board/cards/<int:card_id>/archive", methods=['GET', 'PUT'])
+@json_response
+def change_card_archive_status(card_id):
+    if request.method == 'PUT':
+        card_id = request.json['id']
+        is_archived_status = request.json['is_archived_status']
+        new_is_archived_status = get_new_is_archived_status(is_archived_status)
+    return queries.change_card_archive_status(card_id, new_is_archived_status)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -97,6 +106,7 @@ def login():
         else:
             return util.ENTER_ALL_VALUES
     return render_template('index.html')
+
 
 @app.route("/registration", methods=["POST", "GET"])
 def create_new_account():
