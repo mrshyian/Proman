@@ -85,11 +85,14 @@ def create_new_column(board_id: int):
     return queries.insert_new_column()
 
 
-@app.route("/api/boards/columns/<int:column_id>/", methods=['DELETE'])
+@app.route("/api/boards/columns/<int:column_id>/", methods=['DELETE', 'PUT'])
 @json_response
-def delete_column(column_id: int):
-    return queries.delete_column(column_id)
-
+def delete_upgrade_column(column_id: int):
+    if request.method == 'DELETE':
+        queries.delete_column(column_id)
+    elif request.method == 'PUT':
+        new_title = request.json['title']
+        queries.update_column_title(column_id, new_title)
 
 
 

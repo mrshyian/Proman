@@ -153,6 +153,11 @@ async function addEventOnAllColumns() {
             "click",
             deleteColumn
         );
+        domManager.addEventListener(
+            `.board-column-title[data-status-id="${status.id}"]`,
+            "click",
+            changeColumnName
+        );
     }
 }
 
@@ -163,3 +168,16 @@ async function deleteColumn(clickEvent) {
     await dataHandler.deleteAnyColumn(statusId);
 }
 
+function changeColumnName(clickEvent) {
+    let statusId = clickEvent.target.dataset.statusId;
+    console.log(statusId)
+    activateRenameColumnModal(statusId)
+}
+
+function activateRenameColumnModal(statusId) {
+    const input = document.getElementById('new-name-for-column');
+    input.value =  "";
+
+    $("#modal-for-rename-column").modal();
+    document.getElementById("submit-button-rename-column").setAttribute('data-column-id', statusId);
+}

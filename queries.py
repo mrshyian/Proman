@@ -91,6 +91,17 @@ def update_card_title(card_id, new_title):
     )
 
 
+def update_column_title(column_id, new_title):
+    data_manager.execute_insert(
+        """
+            UPDATE statuses
+            SET title = %(new_title)s
+            WHERE id = %(column_id)s;""",
+        {"column_id": column_id,
+         "new_title": new_title}
+    )
+
+
 def get_boards():
     return data_manager.execute_select(
         """SELECT * FROM boards
@@ -134,7 +145,8 @@ def get_card(card_id):
 
 def get_statuses():
     return data_manager.execute_select(
-        """SELECT * FROM statuses;"""
+        """SELECT * FROM statuses
+            ORDER BY id ASC;"""
     )
 
 

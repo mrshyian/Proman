@@ -62,6 +62,14 @@ export let dataHandler = {
         await apiPut(`/api/boards/cards/${cardId}/`, data);
     },
 
+    updateColumnTitle: async function (newTitle, columnId) {
+        const data = {
+            'id': columnId,
+            'title': newTitle
+        };
+        await apiPut(`/api/boards/columns/${columnId}/`, data);
+    },
+
     // getUserBuyUserId: async function (email) {
     //     const response = await apiGet(`/api/login/${email}/`);
     //     console.log(response)
