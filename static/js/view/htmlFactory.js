@@ -22,8 +22,7 @@ export function htmlFactory(template) {
 
 
 function boardBuilder(board) {
-    let htmlBlockBoard =
-        `<div class="board" data-board-id="${board.id}">
+    return `<div class="board" data-board-id="${board.id}">
                <div class="board-header">
                   <span class="board-title" data-board-id="${board.id}">${board.title}</span> 
                   <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
@@ -33,8 +32,7 @@ function boardBuilder(board) {
                </div> 
                   <div class="board-columns" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
                   </div>
-        </div>`;
-    return htmlBlockBoard;
+        </div>`
 }
 
 
