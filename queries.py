@@ -62,6 +62,13 @@ def delete_card(card_id):
     )
 
 
+def delete_column(column_id):
+    data_manager.execute_insert(
+        """DELETE FROM statuses WHERE id = %(column_id)s;""",
+        {"column_id": column_id}
+    )
+
+
 def update_board_title(board_id, new_title):
     data_manager.execute_insert(
         """

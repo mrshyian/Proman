@@ -85,6 +85,15 @@ def create_new_column(board_id: int):
     return queries.insert_new_column()
 
 
+@app.route("/api/boards/columns/<int:column_id>/", methods=['DELETE'])
+@json_response
+def delete_column(column_id: int):
+    return queries.delete_column(column_id)
+
+
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":

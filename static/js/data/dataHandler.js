@@ -13,8 +13,6 @@ export let dataHandler = {
     },
     createNewColumn: async function (boardId) {
         await apiPost(`/api/boards/${boardId}/columns/`);
-
-
     },
     getStatus: async function (cardId) {
         const response = await apiGet(`/api/cards/${cardId}/status/`);
@@ -40,6 +38,10 @@ export let dataHandler = {
     deleteCard: async function (cardId) {
         const data = { 'id': cardId };
         await apiDelete(`/api/boards/cards/${cardId}/`, data);
+    },
+    deleteAnyColumn: async function (columnId) {
+        const data = { 'id': columnId };
+        await apiDelete(`/api/boards/columns/${columnId}/`, data);
     },
     deleteAnyBoard: async function (boardId) {
         const data = { 'id': boardId };
