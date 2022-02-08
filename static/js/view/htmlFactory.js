@@ -1,5 +1,5 @@
 import {dataHandler} from "../data/dataHandler.js";
-import {deleteColumn} from "../controller/columnsManager.js";
+
 
 export const htmlTemplates = {
     board: 1,
@@ -47,7 +47,7 @@ export async function statusColumnsBuilder() {
 
         const div = `<div class="board-column" data-status-id="${status.id}" style="width: calc(100%/${amountOfColumns}); text-align: center; display: block; float:right"">
                         <span class="board-column-title" data-status-id="${status.id}">${status['title']}</span>
-                        <span class="column-remove" style='float: right; text-align: center; width: 20px; cursor: pointer; background-color: lightgray;' id="${status['id']}-span" onclick="deleteColumn()">x</span>
+                        <span class="column-remove" data-status-id="${status.id}" style='float: right; text-align: center; width: 20px; cursor: pointer; background-color: lightgray;' id="${status['id']}-span"  onclick='(function(){ document.querySelector(\`.board-column[data-status-id="${status.id}"]\`).remove(); })();'>x</span>
                         <div class="board-column-content drop-zone" data-status-id="${status.id}" ></div>
                     </div>`;
              htmlBlock += div;
