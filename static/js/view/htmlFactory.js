@@ -22,14 +22,23 @@ function boardBuilder(board) {
     let htmlBlockBoard =
         `<div class="board" data-board-id="${board.id}">
                <div class="board-header">
-                  <span class="board-title" data-board-id="${board.id}">${board.title}</span> 
-                  <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-                  <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
-                  <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
+                  <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
+                  <div class="board-options">
+                      <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                      <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
+                      <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
+                  </div>
                </div> 
                   <div class="board-columns" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
                   </div>
         </div>`;
+    // show boards: <i class="fa-solid fa-arrow-down-wide-short"></i>
+    // hide boards: <i class="fa-solid fa-arrow-up-wide-short"></i>
+    // add card: <i class="fa-solid fa-file-plus"></i>
+    // delete board: <i class="fa-solid fa-folder-minus"></i>
+    // add board: <i class="fa-solid fa-folder-plus"></i>
+
+
     return htmlBlockBoard;
 }
 
