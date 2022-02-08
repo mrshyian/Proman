@@ -112,7 +112,7 @@ def create_new_account():
 
 def main():
     app.run(host='0.0.0.0',
-        port=8000,
+        port=8002,
         debug=True,)
 
     # Serving the favicon
