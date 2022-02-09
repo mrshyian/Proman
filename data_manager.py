@@ -41,10 +41,10 @@ def get_connection_data(db_name=None):
         db_name = os.environ.get('MY_PSQL_DBNAME')
 
     return {
-        'dbname': 'proman',
+        'dbname': 'ProMan',
         'user': 'postgres',
         'host': 'localhost',
-        'password': 'postgres',
+        'password': '43676321',
         'port': 5433
     }
     # return {
