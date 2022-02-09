@@ -69,6 +69,14 @@ export let dataHandler = {
         const response = await apiPut(`/api/board/cards/${cardId}/archive`, data);
         return response;
     },
+    updateCardStatus: async function (boardId, cardId, newStatus) {
+        const data = {
+            'board_id': boardId,
+            'id': cardId,
+            'status_id': newStatus
+        };
+        await apiPut(`/api/boards/cards/statuses/${boardId}/${cardId}/${newStatus}`, data);
+    },
 
     updateColumnTitle: async function (newTitle, columnId) {
         const data = {

@@ -91,6 +91,17 @@ def update_card_title(card_id, new_title):
     )
 
 
+
+def update_card_status(board_id, card_id, new_status):
+    data_manager.execute_insert(
+        """
+            UPDATE cards
+            SET board_id = %(board_id)s, status_id = %(new_status)s
+            WHERE id = %(card_id)s;""",
+        {"card_id": card_id,
+         "new_status": new_status,
+         "board_id": board_id}
+
 def update_column_title(column_id, new_title):
     data_manager.execute_insert(
         """
@@ -99,6 +110,7 @@ def update_column_title(column_id, new_title):
             WHERE id = %(column_id)s;""",
         {"column_id": column_id,
          "new_title": new_title}
+
     )
 
 
