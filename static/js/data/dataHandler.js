@@ -63,7 +63,9 @@ export let dataHandler = {
             'id': cardId,
             'is_archived_status': isArchivedStatus
         };
-        await apiPut(`/api/board/cards/${cardId}/archive`, data);
+        const response = await apiPut(`/api/board/cards/${cardId}/archive`, data);
+        console.log(response)
+        return response;
     },
 
     // getUserBuyUserId: async function (email) {
@@ -113,7 +115,8 @@ async function apiPut(url, data) {
         body: JSON.stringify(data),
     });
     if (response.status === 200) {
-        await response.json();
+        const receivedData = await response.json();
         console.log("PUT sent successfully")
+        return receivedData;
     }
 }

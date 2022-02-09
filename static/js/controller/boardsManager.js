@@ -2,7 +2,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
-import {changeArchivedModalInnerHTML} from "./modalManager.js";
+import {changeArchivedModalInnerHTML, closeModal} from "./modalManager.js";
 import * as dnd from "../view/dragndrop.js";
 
 export let boardsManager = {
@@ -134,10 +134,15 @@ async function showArchivedCardList(board){
         const renameModal = document.getElementById('modal-for-rename');
         archivedCardListModal = renameModal.cloneNode(true);
         archivedCardListModal.setAttribute('id', 'modal-for-archived-cards');
-        await changeArchivedModalInnerHTML(board, archivedCardListModal);
-        const body = document.getElementsByTagName('body')[0];
-        body.insertBefore(archivedCardListModal,null);
+
+        const modalHeader = archivedCardListModal.querySelector('.modal-header');
+        modalHeader.insertAdjacentHTML('beforeend','<span class="modal-close" style="position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray; text-align: center;">x</span>')
+        const modalCloseButton = modalHeader.querySelector('span.modal-close');
+        modalCloseButton.addEventListener('click', closeModal);
     }
+    await changeArchivedModalInnerHTML(board, archivedCardListModal);
+    const body = document.getElementsByTagName('body')[0];
+    body.insertBefore(archivedCardListModal,null);
     $("#modal-for-archived-cards").modal();
 }
 

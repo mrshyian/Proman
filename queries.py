@@ -84,6 +84,10 @@ def change_card_archive_status(card_id, is_archived_status):
             SET is_archived = {is_archived_status}
             WHERE id = {card_id};"""
     )
+    return data_manager.execute_select(
+        f"""SELECT * FROM cards
+           WHERE id = {card_id};"""
+    )[0]
 
 
 def get_boards():

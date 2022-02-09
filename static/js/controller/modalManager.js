@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 
+
 export function initRenameModal(){
     const submitButton = document.getElementById("submit-button-rename");
     submitButton.addEventListener("click",async function(){
@@ -51,10 +52,6 @@ function renameBoard(boardId, value){
 
 export async function changeArchivedModalInnerHTML(board, archivedCardListModal){
     const boardId = board.id;
-    const modalHeader = archivedCardListModal.querySelector('.modal-header');
-    modalHeader.insertAdjacentHTML('beforeend','<span class="modal-close" style="position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray; text-align: center;">x</span>')
-    const modalCloseButton = modalHeader.querySelector('span.modal-close');
-    modalCloseButton.addEventListener('click', closeModal);
     const modalTitle = archivedCardListModal.querySelector('.modal-title');
     modalTitle.innerText = "Archived Cards: ";
     const modalBody = archivedCardListModal.querySelector('.modal-body');
@@ -64,7 +61,7 @@ export async function changeArchivedModalInnerHTML(board, archivedCardListModal)
         const archivedCardBuilder = htmlFactory(htmlTemplates.archivedCard);
         const archivedCard = archivedCardBuilder(card);
         modalBody.insertAdjacentHTML('beforeend',archivedCard);
-        const cardRestoreButton = modalBody.querySelector('.card-restore');
+        const cardRestoreButton = modalBody.querySelector(`.card-restore[data-card-id="${card.id}"]`);
         cardRestoreButton.addEventListener('click', restoreArchivedCard);
     }
 }
@@ -73,10 +70,17 @@ async function restoreArchivedCard(clickEvent){
     const archivedCard = clickEvent.target.parentElement.parentElement;
     const cardId = archivedCard.getAttribute('data-card-id');
     const isArchivedStatus = archivedCard.getAttribute('data-is-archived-status');
-    await dataHandler.changeCardArchiveStatus(cardId, isArchivedStatus);
+    const restoredCard = await dataHandler.changeCardArchiveStatus(cardId, isArchivedStatus);
     archivedCard.remove();
+
+    const boardId = restoredCard.board_id;
+    const showBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
+    if (showBoardButton.innerText==='Hide Cards'){
+        showBoardButton.click();
+        showBoardButton.click();
+    }
 }
 
-function closeModal(){
+export function closeModal(){
     $("#modal-for-archived-cards").modal('hide');
 }

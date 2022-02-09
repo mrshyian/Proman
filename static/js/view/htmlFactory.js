@@ -64,9 +64,9 @@ function cardBuilder(card) {
 
 
 function archivedCardBuilder(card) {
-     return `<div class="archived-card" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" style="width: 90%; text-align: center; display: block;">
+     return `<div class="archived-card" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" style="text-align: center; display: block;">
         <span class="card-title" style="display: block; position: relative; margin-right: calc(10% + 20px); min-height: 20px;">${card.title}</span>
-        <span class="card-restore" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-share" aria-hidden="true"></i></span>
+        <span class="card-restore" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;' data-card-id="${card.id}"><i class="fa fa-share" aria-hidden="true"></i></span>
         </div>`
 }
 
