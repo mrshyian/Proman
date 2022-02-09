@@ -67,6 +67,13 @@ def get_card(card_id: int):
         queries.update_card_title(card_id, new_title)
 
 
+@app.route("/api/boards/cards/statuses/<int:board_id>/<int:card_id>/<int:status_id>", methods=['PUT'])
+@json_response
+def update_card_status(board_id: int, card_id: int, status_id: int):
+    print('ddd')
+    queries.update_card_status(board_id, card_id, status_id)
+
+
 @app.route("/api/statuses")
 @json_response
 def get_statuses():

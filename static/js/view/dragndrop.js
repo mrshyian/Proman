@@ -1,3 +1,5 @@
+import {dataHandler} from "../data/dataHandler.js";
+
 
 export function initDragAndDrop() {
 
@@ -39,8 +41,9 @@ export function initDropZone(dropZone) {
 
 export function dragStartHandler(e) {
     setDropZonesHighlight();
-    console.log('start dragging');
+    let sourceBoardId = this.parentElement.parentElement.parentElement.getAttribute('data-board-id');
     this.classList.add('dragged', 'drag-feedback');
+    this.setAttribute('source-board-id', sourceBoardId);
     e.dataTransfer.setData("type/dragged-box", 'dragged');
     e.dataTransfer.setData("text/plain", this.textContent.trim());
     deferredOriginChanges(this, 'drag-feedback');
@@ -54,6 +57,7 @@ function dragHandler() {
 export function dragEndHandler() {
     setDropZonesHighlight(false);
     this.classList.remove('dragged');
+    this.removeAttribute('source-board-id');
 }
 
 
@@ -83,9 +87,23 @@ export function dropZoneLeaveHandler(e) {
 
 export function dropZoneDropHandler(e) {
     let draggedElement = document.querySelector('.dragged');
-    console.log("dropped");
-    console.log(e.currentTarget);
-    e.currentTarget.appendChild(draggedElement);
+    let sourceBoardId = draggedElement.getAttribute('source-board-id');
+    let targetBoardId = e.currentTarget.parentElement.parentElement.getAttribute('data-board-id');
+    let doIt = true;
+    if (sourceBoardId !== targetBoardId) {
+        if (!confirm("You are trying to move the card to another board, is it intended action?")) {
+            doIt = false;
+        }}
+    if (doIt) {
+        console.log('targetBoardId:' + targetBoardId);
+        console.log('sourceBoardId:' + sourceBoardId);
+        let newStatus = e.currentTarget.getAttribute('data-status-id');
+        e.currentTarget.appendChild(draggedElement);
+        let cards = e.currentTarget.getElementsByClassName('card draggable dragged');
+        let cardId = cards[0].getAttribute('data-card-id');
+        dataHandler.updateCardStatus(targetBoardId, cardId, newStatus);
+    }
+
     e.preventDefault();
 }
 

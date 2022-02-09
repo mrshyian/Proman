@@ -32,8 +32,7 @@ export let cardsManager = {
 };
 
 export async function deleteButtonHandler(clickEvent) {
-    let target = clickEvent.target.parentElement;
-
+    let target = clickEvent.target.parentElement.parentElement;
     const cardId = target.dataset.cardId;
     await dataHandler.deleteCard(cardId);
     target.remove();
