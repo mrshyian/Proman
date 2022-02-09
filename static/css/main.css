@@ -111,6 +111,8 @@ h1{
 }
 
 .board-column{
+    display: flex;
+    position: relative;
     padding: 10px;
     flex: 1;
 }
@@ -153,6 +155,15 @@ h1{
 }
 
 .card-remove{
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.column-remove{
     display: block;
     position: absolute;
     top: 4px;

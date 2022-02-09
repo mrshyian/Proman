@@ -29,6 +29,13 @@ def insert_new_card(board_id):
         return response[0]
 
 
+def insert_new_column():
+    data_manager.execute_insert(
+        """INSERT INTO statuses (title) 
+           VALUES ('new column');""",
+    )
+
+
 def delete_board(board_id):
     data_manager.execute_insert(
         """SELECT * INTO TABLE todelete FROM boards
@@ -55,6 +62,13 @@ def delete_card(card_id):
     )
 
 
+def delete_column(column_id):
+    data_manager.execute_insert(
+        """DELETE FROM statuses WHERE id = %(column_id)s;""",
+        {"column_id": column_id}
+    )
+
+
 def update_board_title(board_id, new_title):
     data_manager.execute_insert(
         """
@@ -73,6 +87,17 @@ def update_card_title(card_id, new_title):
             SET title = %(new_title)s
             WHERE id = %(board_id)s;""",
         {"board_id": card_id,
+         "new_title": new_title}
+    )
+
+
+def update_column_title(column_id, new_title):
+    data_manager.execute_insert(
+        """
+            UPDATE statuses
+            SET title = %(new_title)s
+            WHERE id = %(column_id)s;""",
+        {"column_id": column_id,
          "new_title": new_title}
     )
 
@@ -139,7 +164,8 @@ def get_card(card_id):
 
 def get_statuses():
     return data_manager.execute_select(
-        """SELECT * FROM statuses;"""
+        """SELECT * FROM statuses
+            ORDER BY id ASC;"""
     )
 
 

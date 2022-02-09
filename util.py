@@ -34,14 +34,6 @@ def verify_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
 
 
-YOU_ARE_LOGGED_IN = """"
-                <script>
-                    alert("You are logged in")
-                    window.location= "/"
-                </script>    
-                """
-
-
 INVALID_LOGIN_ATTEMPT = """
                             <script>
                             alert('Invalid login attempt')

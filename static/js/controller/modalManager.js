@@ -44,9 +44,33 @@ function renameCard(cardId, value){
 }
 
 
+function renameColumn(columnId, value){
+    const columnTitle = document.querySelector(`.board-column-title[data-status-id="${columnId}"]`);
+    columnTitle.innerHTML = value;
+}
+
+
 function renameBoard(boardId, value){
     const boardTitle = document.querySelector(`.board-title[data-board-id="${boardId}"]`);
     boardTitle.innerHTML = value;
+}
+
+
+export function initRenameColumnModal(){
+    const submitButton = document.getElementById("submit-button-rename-column");
+    submitButton.addEventListener("click",async function(){
+        const columnId = submitButton.dataset.columnId;
+        const input = document.getElementById('new-name-for-column');
+        const value =  input.value;
+
+        if (value.length < 4){
+            return;
+        }
+
+        await dataHandler.updateColumnTitle(value, columnId);
+
+        renameColumn(columnId, value);
+    })
 }
 
 
