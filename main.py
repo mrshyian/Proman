@@ -74,10 +74,10 @@ def update_card_status(board_id: int, card_id: int, status_id: int):
     queries.update_card_status(board_id, card_id, status_id)
 
 
-@app.route("/api/statuses")
+@app.route("/api/statuses/<int:board_id>/")
 @json_response
-def get_statuses():
-    return queries.get_statuses()
+def get_statuses(board_id):
+    return queries.get_statuses(board_id)
 
 
 @app.route("/api/cards/<int:card_id>/status/")
@@ -105,7 +105,7 @@ def change_card_archive_status(card_id):
 @app.route("/api/boards/<int:board_id>/columns/", methods=['POST'])
 @json_response
 def create_new_column(board_id: int):
-    return queries.insert_new_column()
+    return queries.insert_new_column(board_id)
 
 
 @app.route("/api/boards/columns/<int:column_id>/", methods=['DELETE', 'PUT'])

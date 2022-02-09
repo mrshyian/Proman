@@ -48,8 +48,8 @@ function boardBuilder(board) {
 }
 
 
-export async function statusColumnsBuilder() {
-    let cardStatuses = await dataHandler.getStatuses();
+export async function statusColumnsBuilder(boardId) {
+    let cardStatuses = await dataHandler.getStatuses(boardId);
     let htmlBlock = ``;
     const amountOfColumns = cardStatuses.length;
 

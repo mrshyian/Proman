@@ -29,10 +29,21 @@ def insert_new_card(board_id):
         return response[0]
 
 
-def insert_new_column():
+def insert_new_column(board_id):
     data_manager.execute_insert(
         """INSERT INTO statuses (title) 
-           VALUES ('new column');""",
+           VALUES ('new column');"""
+    )
+
+    new_status_id = data_manager.execute_select(
+        """SELECT id FROM statuses
+            ORDER BY id DESC 
+            LIMIT 1;"""
+    )[0]['id']
+
+    data_manager.execute_insert(f"""
+            INSERT INTO statuses_and_boards (board_id, status_id)
+            VALUES ({board_id}, {new_status_id});"""
     )
 
 
@@ -64,7 +75,12 @@ def delete_card(card_id):
 
 def delete_column(column_id):
     data_manager.execute_insert(
-        """DELETE FROM statuses WHERE id = %(column_id)s;""",
+        """DELETE FROM statuses WHERE id = %(column_id)s;
+        
+        DELETE FROM cards WHERE status_id = %(column_id)s;
+        
+        DELETE FROM statuses_and_boards WHERE status_id = %(column_id)s;
+        """,
         {"column_id": column_id}
     )
 
@@ -174,10 +190,13 @@ def get_card(card_id):
     return matching_cards
 
 
-def get_statuses():
+def get_statuses(board_id):
     return data_manager.execute_select(
-        """SELECT * FROM statuses
-            ORDER BY id ASC;"""
+        f"""SELECT statuses.title as title, statuses.id as id FROM statuses
+        inner join statuses_and_boards on statuses.id = statuses_and_boards.status_id
+        inner join boards on boards.id = statuses_and_boards.board_id
+        WHERE statuses_and_boards.board_id = {board_id}
+        ORDER BY statuses.id ASC;"""
     )
 
 

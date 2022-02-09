@@ -3,8 +3,8 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards`);
         return response;
     },
-    getStatuses: async function () {
-        const response = await apiGet(`/api/statuses`);
+    getStatuses: async function (boardId) {
+        const response = await apiGet(`/api/statuses/${boardId}/`);
         return response;
     },
     createNewColumn: async function (boardId) {

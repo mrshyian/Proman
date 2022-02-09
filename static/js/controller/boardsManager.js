@@ -7,7 +7,7 @@ import * as dnd from "../view/dragndrop.js";
 
 export let boardsManager = {
     loadBoards: async function () {
-        addButtonNewBoard()
+        addButtonNewBoard();
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
             await createBoard(board);
@@ -20,10 +20,10 @@ async function showHideButtonHandler(clickEvent) {
     const buttonName = clickEvent.target.textContent;
     const boardId = clickEvent.target.dataset.boardId;
     if (buttonName === 'Show Cards') {
-        const statusContent = await statusColumnsBuilder();
+        const statusContent = await statusColumnsBuilder(boardId);
         domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, statusContent);
         await cardsManager.loadCards(boardId);
-        await addEventOnAllColumns()
+        await addEventOnAllColumns(boardId);
         clickEvent.target.innerHTML = 'Hide Cards'
     } else if (buttonName === 'Hide Cards') {
         clickEvent.target.innerHTML = 'Show Cards'
@@ -55,7 +55,7 @@ async function createNewBoard() {
 
 async function createBoard(board) {
     const boardBuilder = htmlFactory(htmlTemplates.board);
-    const content = await boardBuilder(board);
+    const content = boardBuilder(board);
     domManager.addChild("#root", content);
     domManager.addEventListener(
         `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -136,22 +136,19 @@ async function addCard(clickEvent) {
 async function createNewColumn(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     await dataHandler.createNewColumn(boardId);
-    console.log('haha')
     document.getElementById('root').innerHTML = ""
     addButtonNewBoard()
     const boards = await dataHandler.getBoards();
     for (let board of boards) {
         await createBoard(board);
     }
-    const statusContent = await statusColumnsBuilder();
-    domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, statusContent);
-    await cardsManager.loadCards(boardId);
-    await addEventOnAllColumns()
+    const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
+    showHideBoardButton.click();
 }
 
 
-async function addEventOnAllColumns() {
-    let cardStatuses = await dataHandler.getStatuses();
+async function addEventOnAllColumns(boardId) {
+    let cardStatuses = await dataHandler.getStatuses(boardId);
     for (const status of cardStatuses) {
         domManager.addEventListener(
             `.column-remove[data-status-id="${status.id}"]`,
@@ -175,8 +172,7 @@ async function deleteColumn(clickEvent) {
 
 function changeColumnName(clickEvent) {
     let statusId = clickEvent.target.dataset.statusId;
-    console.log(statusId)
-    activateRenameColumnModal(statusId)
+    activateRenameColumnModal(statusId);
 }
 
 function activateRenameColumnModal(statusId) {
