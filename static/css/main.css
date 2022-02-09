@@ -132,7 +132,9 @@ h1{
 }
 
 .board-column{
-    padding: 5px;
+        display: flex;
+    position: relative;
+    padding: 10px;
     flex: 1;
 }
 
