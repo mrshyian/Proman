@@ -44,7 +44,26 @@ function boardBuilder(board) {
                </div> 
                   <div class="board-columns" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
                   </div>
-        </div>`
+        </div>`;
+    // show boards: <i class="fa-solid fa-arrow-down-wide-short"></i>
+    // hide boards: <i class="fa-solid fa-arrow-up-wide-short"></i>
+    // add card: <i class="fa-solid fa-file-plus"></i>
+    // delete board: <i class="fa-solid fa-folder-minus"></i>
+    // add board: <i class="fa-solid fa-folder-plus"></i>
+
+
+    //return htmlBlockBoard;
+
+//                  <span class="board-title" data-board-id="${board.id}">${board.title}</span> 
+//                  <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+//                  <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
+//                  <button class="add-column-button" data-board-id="${board.id}">Add Column</button>
+//                  <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
+//               </div> 
+//                  <div class="board-columns" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
+//                  </div>
+//        </div>`
+
 }
 
 
@@ -61,7 +80,6 @@ export async function statusColumnsBuilder(boardId) {
                         <div class="board-column-content drop-zone" data-status-id="${status.id}" ></div>
                     </div>`;
              htmlBlock += div;
-
     }
     return htmlBlock;
 }
@@ -73,11 +91,21 @@ export async function statusColumnsBuilder(boardId) {
 
 
 function cardBuilder(card) {
+     // return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block;">
+     //       <span class="card-title">${card.title}</span>
+     //       <span class="card-archive" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
+     //       <span class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></span>
+     //
+     //    </div>`
+
      return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block;">
-           <span class="card-title">${card.title}</span>
-           <span class="card-archive" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
-           <span class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></span>
-         
+           <div class="card-content">
+           <div class="card-options">
+           <div class="card-archive" id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></div>
+           <div class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></div>
+         </div>
+         <div class="card-title">${card.title}</div>
+         </div>
         </div>`
 }
 

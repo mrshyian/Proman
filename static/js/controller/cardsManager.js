@@ -14,17 +14,17 @@ export let cardsManager = {
 
             domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
             domManager.addEventListener(
-                `.card`+`.draggable[data-card-id="${card.id}"]>.card-archive`,
+                `.card`+`.draggable[data-card-id="${card.id}"]>.card-content>.card-options>.card-archive`,
                 "click",
                 archiveButtonHandler
             );
             domManager.addEventListener(
-                `.card`+`.draggable[data-card-id="${card.id}"]>.card-remove`,
+                `.card`+`.draggable[data-card-id="${card.id}"]>.card-content>.card-options>.card-remove`,
                 "click",
                 deleteButtonHandler
             );
             domManager.addEventListener(
-                `.card`+`.draggable[data-card-id="${card.id}"]`,
+                `.card`+`.draggable[data-card-id="${card.id}"]>.card-content>.card-title`,
                 "dblclick",
                 changeCardName
             );
@@ -55,15 +55,18 @@ async function archiveButtonHandler(clickEvent) {
 export function changeCardName(dblclickEvent) {
     let target = dblclickEvent.target;
 
+
     if (target.classList.contains('card-remove')) {
         return;
     }
     if (target.classList.contains('card-title')) {
-        target = target.parentElement;
+        target = target.parentElement.parentElement;
+
     }
 
     const cardId = target.dataset.cardId;
     const cards = document.getElementsByClassName("card");
+    console.log(cards);
 
     for (let card of cards) {
         if (card.getAttribute('data-card-id') === cardId) {
@@ -76,7 +79,6 @@ export function changeCardName(dblclickEvent) {
 function activateRenameCardModal(cardId) {
     const input = document.getElementById('new-name-for-card');
     input.value =  "";
-
     $("#modal-for-rename-card").modal();
     document.getElementById("submit-button-rename-card").setAttribute('data-card-id', cardId);
 }

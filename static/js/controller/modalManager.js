@@ -39,7 +39,7 @@ export function initRenameCardModal(){
 
 
 function renameCard(cardId, value){
-    const cardTitle = document.querySelector(`.card[data-card-id="${cardId}"]>.card-title`);
+    const cardTitle = document.querySelector(`.card[data-card-id="${cardId}"]>.card-content>.card-title`);
     cardTitle.innerHTML = value;
 }
 
