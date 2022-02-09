@@ -9,6 +9,7 @@ def establish_connection(connection_data=None):
     :connection_data: Connection string attributes
     :returns: psycopg2.connection
     """
+
     if connection_data is None:
         connection_data = get_connection_data()
     try:
