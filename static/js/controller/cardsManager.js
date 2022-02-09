@@ -37,7 +37,7 @@ export let cardsManager = {
 };
 
 export async function deleteButtonHandler(clickEvent) {
-    let target = clickEvent.target.parentElement.parentElement;
+    let target = clickEvent.target.parentElement.parentElement.parentElement.parentElement;
     const cardId = target.dataset.cardId;
     await dataHandler.deleteCard(cardId);
     target.remove();
@@ -45,7 +45,7 @@ export async function deleteButtonHandler(clickEvent) {
 }
 
 async function archiveButtonHandler(clickEvent) {
-    let target = clickEvent.target.parentElement.parentElement;
+    let target = clickEvent.target.parentElement.parentElement.parentElement.parentElement;
     const cardId = target.dataset.cardId;
     const isArchivedStatus = target.getAttribute('data-is-archived-status');
     await dataHandler.changeCardArchiveStatus(cardId, isArchivedStatus);

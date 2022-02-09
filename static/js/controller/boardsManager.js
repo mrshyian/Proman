@@ -119,7 +119,7 @@ async function addCard(clickEvent) {
 
     domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
-        `.card` + `.draggable[data-card-id="${card.id}"]>.card-remove`,
+        `.card` + `.draggable[data-card-id="${card.id}"]>.card-content>.card-options>.card-remove`,
         "click",
         deleteButtonHandler
     );
