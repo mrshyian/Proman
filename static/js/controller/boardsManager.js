@@ -18,12 +18,13 @@ export let boardsManager = {
 async function showHideButtonHandler(clickEvent) {
     const buttonName = clickEvent.target.textContent;
     const boardId = clickEvent.target.dataset.boardId;
-    if (buttonName === 'Show Cards'){
+    if (buttonName === 'Show Cards') {
         const statusContent = await statusColumnsBuilder();
-        domManager.addChild(`.board-columns[data-board-id="${boardId}"]` , statusContent);
+        domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, statusContent);
         await cardsManager.loadCards(boardId);
+        await addEventOnAllColumns()
         clickEvent.target.innerHTML = 'Hide Cards'
-    } else if (buttonName === 'Hide Cards'){
+    } else if (buttonName === 'Hide Cards') {
         clickEvent.target.innerHTML = 'Show Cards'
         await cardsManager.hideCards(boardId);
     }
@@ -46,12 +47,12 @@ function addButtonNewBoard() {
 
 }
 
-async function createNewBoard(){
+async function createNewBoard() {
     const board = await dataHandler.createNewBoard();
     await createBoard(board);
 }
 
-async function createBoard(board){
+async function createBoard(board) {
     const boardBuilder = htmlFactory(htmlTemplates.board);
     const content = await boardBuilder(board);
     domManager.addChild("#root", content);
@@ -75,6 +76,11 @@ async function createBoard(board){
         "click",
         addCard
     );
+    domManager.addEventListener(
+        `.add-column-button[data-board-id="${board.id}"]`,
+        "click",
+        createNewColumn
+    );
 }
 
 
@@ -91,7 +97,7 @@ function changeBoardName(clickEvent) {
 
 function activateRenameBoardModal(boardId) {
     const input = document.getElementById('new-name-for-board');
-    input.value =  "";
+    input.value = "";
 
     $("#modal-for-rename").modal();
     document.getElementById("submit-button-rename").setAttribute('data-board-id', boardId);
@@ -107,15 +113,71 @@ async function addCard(clickEvent) {
 
     domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
-        `.card`+`.draggable[data-card-id="${card.id}"]>.card-remove`,
+        `.card` + `.draggable[data-card-id="${card.id}"]>.card-remove`,
         "click",
         deleteButtonHandler
     );
     domManager.addEventListener(
-        `.card`+`.draggable[data-card-id="${card.id}"]`,
+        `.card` + `.draggable[data-card-id="${card.id}"]`,
         "dblclick",
         changeCardName
     );
 
-     dnd.initDragAndDrop();
+    dnd.initDragAndDrop();
+}
+
+
+async function createNewColumn(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    await dataHandler.createNewColumn(boardId);
+    console.log('haha')
+    document.getElementById('root').innerHTML = ""
+    addButtonNewBoard()
+    const boards = await dataHandler.getBoards();
+    for (let board of boards) {
+        await createBoard(board);
+    }
+    const statusContent = await statusColumnsBuilder();
+    domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, statusContent);
+    await cardsManager.loadCards(boardId);
+    await addEventOnAllColumns()
+}
+
+
+async function addEventOnAllColumns() {
+    let cardStatuses = await dataHandler.getStatuses();
+    console.log(cardStatuses)
+    for (const status of cardStatuses) {
+        domManager.addEventListener(
+            `.column-remove[data-status-id="${status.id}"]`,
+            "click",
+            deleteColumn
+        );
+        domManager.addEventListener(
+            `.board-column-title[data-status-id="${status.id}"]`,
+            "click",
+            changeColumnName
+        );
+    }
+}
+
+
+async function deleteColumn(clickEvent) {
+    const statusId = clickEvent.target.dataset.statusId;
+    clickEvent.target.parentNode.remove();
+    await dataHandler.deleteAnyColumn(statusId);
+}
+
+function changeColumnName(clickEvent) {
+    let statusId = clickEvent.target.dataset.statusId;
+    console.log(statusId)
+    activateRenameColumnModal(statusId)
+}
+
+function activateRenameColumnModal(statusId) {
+    const input = document.getElementById('new-name-for-column');
+    input.value =  "";
+
+    $("#modal-for-rename-column").modal();
+    document.getElementById("submit-button-rename-column").setAttribute('data-column-id', statusId);
 }

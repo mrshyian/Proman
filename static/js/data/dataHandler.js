@@ -11,6 +11,9 @@ export let dataHandler = {
         const response = await apiGet(`/api/statuses`);
         return response;
     },
+    createNewColumn: async function (boardId) {
+        await apiPost(`/api/boards/${boardId}/columns/`);
+    },
     getStatus: async function (cardId) {
         const response = await apiGet(`/api/cards/${cardId}/status/`);
         return response[0]['status_id'];
@@ -35,6 +38,10 @@ export let dataHandler = {
     deleteCard: async function (cardId) {
         const data = { 'id': cardId };
         await apiDelete(`/api/boards/cards/${cardId}/`, data);
+    },
+    deleteAnyColumn: async function (columnId) {
+        const data = { 'id': columnId };
+        await apiDelete(`/api/boards/columns/${columnId}/`, data);
     },
     deleteAnyBoard: async function (boardId) {
         const data = { 'id': boardId };
@@ -61,6 +68,14 @@ export let dataHandler = {
             'status_id': newStatus
         };
         await apiPut(`/api/boards/cards/statuses/${boardId}/${cardId}/${newStatus}`, data);
+    },
+
+    updateColumnTitle: async function (newTitle, columnId) {
+        const data = {
+            'id': columnId,
+            'title': newTitle
+        };
+        await apiPut(`/api/boards/columns/${columnId}/`, data);
     },
 
     // getUserBuyUserId: async function (email) {
