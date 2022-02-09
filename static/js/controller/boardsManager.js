@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, newBoardButtonBuilder, statusColumnsBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {closeModal, changeArchivedModalInnerHTML} from "./modalManager.js";
 import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
 import * as dnd from "../view/dragndrop.js";
 
@@ -151,7 +152,6 @@ async function createNewColumn(clickEvent) {
 
 async function addEventOnAllColumns() {
     let cardStatuses = await dataHandler.getStatuses();
-    console.log(cardStatuses)
     for (const status of cardStatuses) {
         domManager.addEventListener(
             `.column-remove[data-status-id="${status.id}"]`,

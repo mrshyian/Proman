@@ -3,10 +3,6 @@ export let dataHandler = {
         const response = await apiGet(`/api/boards`);
         return response;
     },
-    // getBoard: async function (boardId) {
-    //     const response = await apiGet(`/api/boards/${boardId}/`);
-    //     return response;
-    // },
     getStatuses: async function () {
         const response = await apiGet(`/api/statuses`);
         return response;
@@ -71,7 +67,6 @@ export let dataHandler = {
             'is_archived_status': isArchivedStatus
         };
         const response = await apiPut(`/api/board/cards/${cardId}/archive`, data);
-        console.log(response)
         return response;
     },
 
@@ -82,12 +77,6 @@ export let dataHandler = {
         };
         await apiPut(`/api/boards/columns/${columnId}/`, data);
     },
-
-    // getUserBuyUserId: async function (email) {
-    //     const response = await apiGet(`/api/login/${email}/`);
-    //     console.log(response)
-    //     return response;
-    // },
 };
 
 async function apiGet(url) {
