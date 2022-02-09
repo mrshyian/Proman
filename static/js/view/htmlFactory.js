@@ -31,15 +31,16 @@ export function htmlFactory(template) {
 
 
 function boardBuilder(board) {
+    //<img class="icon_expand"/> button for show cards
     return `<div class="board" data-board-id="${board.id}">
                <div class="board-header">
                   <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
                   <div class="board-options">
-                      <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-                      <button class="add-card-button" data-board-id="${board.id}">Add Card</button>
-                      <button class="add-column-button" data-board-id="${board.id}">Add Column</button>
-                      <button class="archived-cards-button" data-board-id="${board.id}">Archived Cards</button>
-                      <button class="delete-board-button" data-board-id="${board.id}">Delete</button>
+                      <button class="btns toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                      <button class="btns add-card-button" data-board-id="${board.id}">Add Card</button>
+                      <button class="btns add-column-button" data-board-id="${board.id}">Add Column</button>
+                      <button class="btns archived-cards-button" data-board-id="${board.id}">Archived Cards</button>
+                      <button class="btns delete-board-button" data-board-id="${board.id}">Delete</button>
                   </div>
                </div> 
                   <div class="board-columns" data-board-id="${board.id}" style="display:flex; flex-wrap:wrap;">
@@ -98,10 +99,10 @@ function cardBuilder(card) {
      //
      //    </div>`
 
-     return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block;">
+     return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true">
            <div class="card-content">
            <div class="card-options">
-           <div class="card-archive" id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></div>
+           <div class="card-archive" id="${card.id}"><i class="fa fa-inbox"></i></div>
            <div class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></div>
          </div>
          <div class="card-title">${card.title}</div>
