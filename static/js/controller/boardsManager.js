@@ -33,7 +33,7 @@ async function showHideButtonHandler(clickEvent) {
 
 async function deleteBoard(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    clickEvent.target.parentNode.parentNode.remove();
+    clickEvent.target.parentElement.parentElement.parentElement.remove();
     await dataHandler.deleteAnyBoard(boardId);
 }
 

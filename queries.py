@@ -91,6 +91,7 @@ def update_card_title(card_id, new_title):
     )
 
 
+
 def update_card_status(board_id, card_id, new_status):
     data_manager.execute_insert(
         """
