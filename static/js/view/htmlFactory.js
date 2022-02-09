@@ -91,11 +91,21 @@ export async function statusColumnsBuilder() {
 
 
 function cardBuilder(card) {
+     // return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block;">
+     //       <span class="card-title">${card.title}</span>
+     //       <span class="card-archive" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
+     //       <span class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></span>
+     //
+     //    </div>`
+
      return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true" style="width: 90%; text-align: center; display: block;">
-           <span class="card-title">${card.title}</span>
-           <span class="card-archive" style='position: absolute; top: calc(50% - 10px); right: 10%;  width: 20px; cursor: pointer;'id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></span>
-           <span class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></span>
-         
+           <div class="card-content">
+           <div class="card-options">
+           <div class="card-archive" id="${card.id}"><i class="fa fa-archive" aria-hidden="true"></i></div>
+           <div class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></div>
+         </div>
+         <div class="card-title">${card.title}</div>
+         </div>
         </div>`
 }
 

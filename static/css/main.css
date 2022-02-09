@@ -170,6 +170,28 @@ h1{
 
 }
 
+.card-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+
+
+.card-options {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(50, 50, 50, 20%);
+    border-radius: 4px;
+}
+
+
 .board-column:nth-of-type(1) .card{
     background: var(--status-1);
 }
@@ -197,9 +219,25 @@ h1{
     align-content: center;
     font-size: 14px;
     cursor: pointer;
-    -webkit-box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);
-    -moz-box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);
-    box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);
+    /*-webkit-box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);*/
+    /*-moz-box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);*/
+    /*box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);*/
+}
+
+.card-archive{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    /*-webkit-box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);*/
+    /*-moz-box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);*/
+    /*box-shadow: inset 2px 2px 5px -5px rgba(10, 10, 10, 1);*/
 }
 
 .column-remove{
@@ -213,6 +251,7 @@ h1{
 
 .card-title{
     margin-bottom: 0;
+    margin-left: 10px;
 }
 
 .cursor {
@@ -238,21 +277,22 @@ h1{
     background: lightgreen;
 }
 
-.fas {
-    color: white;
+.fas, .fa {
+    color: rgba(255, 255, 255, 50%);
     font-size: 14px;
-    -webkit-transition: font-size 0.2s ease;
-    -moz-transition: font-size 0.2s ease;
-    -o-transition: font-size 0.2s ease;
-    transition: font-size 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease-in-out;
 }
 
-.fas:hover {
+.fas:hover, .fa:hover {
+    color: rgba(255, 255, 255, 100%);
     font-size: 18px;
-    -webkit-transition: font-size 0.2s ease;
-    -moz-transition: font-size 0.2s ease;
-    -o-transition: font-size 0.2s ease;
-    transition: font-size 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease-in-out;
 }
 
 .fa-solid {
