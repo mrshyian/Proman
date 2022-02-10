@@ -60,6 +60,7 @@ export async function statusColumnsBuilder(boardId) {
                     </div>`;
              htmlBlock += div;
     }
+
     return htmlBlock;
 }
 
@@ -67,12 +68,12 @@ export async function statusColumnsBuilder(boardId) {
 function cardBuilder(card) {
      return `<div class="card draggable" data-card-id="${card.id}" data-is-archived-status="${card.is_archived}" draggable="true">
            <div class="card-content">
-           <div class="card-options">
-           <div class="card-archive" id="${card.id}"><i class="fa fa-inbox"></i></div>
-           <div class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></div>
-         </div>
-         <div class="card-title">${card.title}</div>
-         </div>
+                <div class="card-options">
+                    <div class="card-archive" id="${card.id}"><i class="fa fa-inbox"></i></div>
+                    <div class="card-remove" id="${card.id}-span"><i class="fas fa-trash-alt"></i></div>
+                </div>
+           <div class="card-title">${card.title}</div>
+           </div>
         </div>`
 }
 

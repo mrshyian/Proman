@@ -14,11 +14,33 @@ def insert_new_board():
         return response[0]
 
 
+# def insert_new_card(board_id):
+#     data_manager.execute_insert(
+#         """INSERT INTO cards (board_id, status_id, title, card_order, is_archived)
+#            VALUES (%(board_id)s, 1,'new card', 1, FALSE);""",
+#         {"board_id": board_id}
+#     )
+#     response = data_manager.execute_select(
+#         """SELECT * FROM cards
+#            ORDER BY id DESC
+#            LIMIT 1;"""
+#     )
+#     if response is not None:
+#         return response[0]
+
+
 def insert_new_card(board_id):
+    status_id = data_manager.execute_select(
+        f"""SELECT status_id FROM statuses_and_boards
+           WHERE  board_id = {board_id}
+           ORDER BY status_id ASC
+           LIMIT 1;"""
+    )[0]['status_id']
+    print(status_id)
     data_manager.execute_insert(
         """INSERT INTO cards (board_id, status_id, title, card_order, is_archived) 
-           VALUES (%(board_id)s, 1,'new card', 1, FALSE);""",
-        {"board_id": board_id}
+           VALUES (%(board_id)s, %(status_id)s,'new card', 1, FALSE);""",
+        {"board_id": board_id, "status_id":status_id}
     )
     response = data_manager.execute_select(
         """SELECT * FROM cards
@@ -27,6 +49,7 @@ def insert_new_card(board_id):
     )
     if response is not None:
         return response[0]
+
 
 
 def insert_new_column(board_id):

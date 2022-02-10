@@ -120,7 +120,7 @@ async function addCard(clickEvent) {
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
 
-    domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
+    domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-status-id="${cardStatusId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
         `.card` + `.draggable[data-card-id="${card.id}"]>.card-content>.card-options>.card-remove`,
         "click",
@@ -146,7 +146,7 @@ async function createNewColumn(clickEvent) {
         await createBoard(board);
     }
     const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    // showHideBoardButton.children[0].click();
+    showHideBoardButton.children[0].click();
 }
 
 
