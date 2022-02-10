@@ -1,9 +1,11 @@
 import data_manager
 
 
-def insert_new_board():
+def insert_new_board(user_id, user_name):
     data_manager.execute_insert(
-        """INSERT INTO boards (title) VALUES ('NEW BOARD');"""
+        """INSERT INTO boards (title, user_id, user_name) VALUES ('NEW BOARD', %(user_id)s, %(user_name)s);""",
+        {'user_id': user_id, 'user_name': user_name}
+
     )
     response = data_manager.execute_select(
         """SELECT * FROM boards
@@ -108,14 +110,16 @@ def delete_column(column_id):
     )
 
 
-def update_board_title(board_id, new_title):
+def update_board_title(board_id, new_title, user_name, user_id):
     data_manager.execute_insert(
         """
             UPDATE boards
-            SET title = %(new_title)s
+            SET title = %(new_title)s, user_id = %(user_id)s, user_name = %(user_name)s
             WHERE id = %(board_id)s;""",
         {"board_id": board_id,
-         "new_title": new_title}
+         "new_title": new_title,
+         "user_id": user_id,
+         "user_name": user_name}
     )
 
 
@@ -139,8 +143,8 @@ def update_card_status(board_id, card_id, new_status):
             WHERE id = %(card_id)s;""",
         {"card_id": card_id,
          "new_status": new_status,
-         "board_id": board_id})
-
+         "board_id": board_id}
+    )
 
 def update_column_title(column_id, new_title):
     data_manager.execute_insert(
@@ -234,10 +238,8 @@ def get_card_status(card_id):
 
     return status
 
+# Registration/login
 
-
-
-# Registration
 
 def create_account(name, secondname, email, telephonenumber, password):
     query =("""
@@ -257,5 +259,4 @@ def login(email):
         , {'email': email}
     )
     return query
-
 

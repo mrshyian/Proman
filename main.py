@@ -23,15 +23,19 @@ def index():
 @json_response
 def get_boards():
     if request.method == 'POST':
-        return queries.insert_new_board()
+        if session:
+            return queries.insert_new_board(session['id'], session['name'])
+        else:
+            return queries.insert_new_board(0, 'Public')
     elif request.method == 'PUT':
         board_id = request.json['id']
         new_title = request.json['title']
-        queries.update_board_title(board_id, new_title)
+        user_name = request.json['user_name']
+        user_id = request.json['user_id']
+        queries.update_board_title(board_id, new_title, user_name, user_id)
     elif request.method == 'DELETE':
         board_id = request.json['id']
         queries.delete_board(board_id)
-
     return queries.get_boards()
 
 
@@ -70,7 +74,6 @@ def get_card(card_id: int):
 @app.route("/api/boards/cards/statuses/<int:board_id>/<int:card_id>/<int:status_id>", methods=['PUT'])
 @json_response
 def update_card_status(board_id: int, card_id: int, status_id: int):
-    print('ddd')
     queries.update_card_status(board_id, card_id, status_id)
 
 
@@ -118,8 +121,6 @@ def delete_upgrade_column(column_id: int):
         queries.update_column_title(column_id, new_title)
 
 
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
@@ -136,7 +137,6 @@ def login():
         else:
             return util.ENTER_ALL_VALUES
     return render_template('index.html')
-
 
 
 @app.route('/logout')

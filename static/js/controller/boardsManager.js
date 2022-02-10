@@ -5,12 +5,21 @@ import {closeModal, changeArchivedModalInnerHTML} from "./modalManager.js";
 import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
 import * as dnd from "../view/dragndrop.js";
 
+
 export let boardsManager = {
     loadBoards: async function () {
         addButtonNewBoard();
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
-            await createBoard(board);
+            if (!sessionStorage.getItem('user_id')) {
+                if (board['user_id'] === 0) {
+                    await createBoard(board);
+                }
+            } else {
+                if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))) {
+                    await createBoard(board);
+                }
+            }
         }
     },
 };
@@ -88,7 +97,7 @@ async function createBoard(board) {
     domManager.addEventListener(
         `.archived-cards-button[data-board-id="${board.id}"]`,
         "click",
-        () =>  showArchivedCardList(board)
+        () => showArchivedCardList(board)
     );
 }
 
@@ -138,15 +147,20 @@ async function addCard(clickEvent) {
 
 async function createNewColumn(clickEvent) {
     const boardId = clickEvent.target.parentElement.dataset.boardId;
-    await dataHandler.createNewColumn(boardId);
-    document.getElementById('root').innerHTML = ""
-    addButtonNewBoard()
-    const boards = await dataHandler.getBoards();
-    for (let board of boards) {
-        await createBoard(board);
+    let allColumns = await dataHandler.getStatuses(boardId);
+    if (allColumns.length<8) {
+        await dataHandler.createNewColumn(boardId);
+        document.getElementById('root').innerHTML = ""
+        addButtonNewBoard()
+        const boards = await dataHandler.getBoards();
+        for (let board of boards) {
+            await createBoard(board);
+        }
+        const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
+        showHideBoardButton.click();
+    } else {
+        alert('So much columns')
     }
-    const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    showHideBoardButton.children[0].click();
 }
 
 
@@ -181,28 +195,62 @@ function changeColumnName(clickEvent) {
 
 function activateRenameColumnModal(statusId) {
     const input = document.getElementById('new-name-for-column');
-    input.value =  "";
+    input.value = "";
 
     $("#modal-for-rename-column").modal();
     document.getElementById("submit-button-rename-column").setAttribute('data-column-id', statusId);
 }
 
-async function showArchivedCardList(board){
+async function showArchivedCardList(board) {
     let archivedCardListModal = document.getElementById('modal-for-archived-cards');
 
-    if (!archivedCardListModal){
+    if (!archivedCardListModal) {
         const renameModal = document.getElementById('modal-for-rename');
         archivedCardListModal = renameModal.cloneNode(true);
         archivedCardListModal.setAttribute('id', 'modal-for-archived-cards');
 
         const modalHeader = archivedCardListModal.querySelector('.modal-header');
-        modalHeader.insertAdjacentHTML('beforeend','<span class="modal-close" style="position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray; text-align: center;">x</span>')
+        modalHeader.insertAdjacentHTML('beforeend', '<span class="modal-close" style="position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray; text-align: center;">x</span>')
         const modalCloseButton = modalHeader.querySelector('span.modal-close');
         modalCloseButton.addEventListener('click', closeModal);
     }
     await changeArchivedModalInnerHTML(board, archivedCardListModal);
     const body = document.getElementsByTagName('body')[0];
-    body.insertBefore(archivedCardListModal,null);
+    body.insertBefore(archivedCardListModal, null);
     $("#modal-for-archived-cards").modal();
 }
 
+export async function refresh_after_click() {
+    const boards = await dataHandler.getBoards();
+    let listOfShowHideButtonDict = [];
+    for (let board of boards) {
+        let showHideButtonDict = {};
+        showHideButtonDict['button_content'] = document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).textContent;
+        showHideButtonDict['board_id'] = board.id;
+        listOfShowHideButtonDict.push(showHideButtonDict);
+    }
+    console.log(listOfShowHideButtonDict);
+    document.getElementById('root').innerHTML = ""
+    addButtonNewBoard();
+    for (let board of boards) {
+        if (!sessionStorage.getItem('user_id')) {
+            if (board['user_id'] === 0) {
+                await createBoard(board);
+                for (let dict of listOfShowHideButtonDict) {
+                    if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                        document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
+                    }
+                }
+            }
+        } else {
+            if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))) {
+                await createBoard(board);
+                for (let dict of listOfShowHideButtonDict) {
+                    if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                        document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
+                    }
+                }
+            }
+        }
+    }
+}
