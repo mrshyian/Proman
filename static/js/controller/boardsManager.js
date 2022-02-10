@@ -203,4 +203,24 @@ async function showArchivedCardList(board) {
     $("#modal-for-archived-cards").modal();
 }
 
-
+export async function refresh_after_click() {
+    const boards = await dataHandler.getBoards();
+    let listOfShowHideButtonDict = [];
+    for (let board of boards) {
+        let showHideButtonDict = {};
+        showHideButtonDict['button_content'] = document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).textContent;
+        showHideButtonDict['board_id'] = board.id;
+        listOfShowHideButtonDict.push(showHideButtonDict);
+    }
+    console.log(listOfShowHideButtonDict);
+    document.getElementById('root').innerHTML = ""
+    addButtonNewBoard();
+    for (let board of boards) {
+        await createBoard(board);
+        for(let dict of listOfShowHideButtonDict){
+            if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards'){
+                document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
+            }
+        }
+    }
+}
