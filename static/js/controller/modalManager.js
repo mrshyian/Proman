@@ -7,15 +7,27 @@ export function initRenameModal(){
     submitButton.addEventListener("click",async function(){
         const boardId = submitButton.dataset.boardId;
         const input = document.getElementById('new-name-for-board');
-        const value =  input.value;
+        var valueForInnerHTML =  input.value;
+        var valueForDb = input.value;
 
-        if (value.length < 4){
+        if (valueForInnerHTML.length < 4){
             return;
         }
+        const boards = await dataHandler.getBoards();
+        for (let board of boards){
+            if(board.id === parseInt(boardId)){
 
-        await dataHandler.updateBoardTitle(value, boardId);
-
-        renameBoard(boardId, value);
+                valueForInnerHTML += '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+ board['user_name']
+            }
+        }
+        if (sessionStorage.getItem('user_name')){
+            let user_id = sessionStorage.getItem('user_id');
+            let user_name = sessionStorage.getItem('user_name')
+           await dataHandler.updateBoardTitle(valueForDb, boardId, user_name, user_id);
+        } else {
+             await dataHandler.updateBoardTitle(valueForDb, boardId, 'Public', 0);
+        }
+        renameBoard(boardId, valueForInnerHTML);
     })
 }
 
