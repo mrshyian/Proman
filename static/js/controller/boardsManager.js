@@ -11,13 +11,12 @@ export let boardsManager = {
         addButtonNewBoard();
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
-            if (!sessionStorage.getItem('user_id')){
-                if (board['user_id'] === 0){
+            if (!sessionStorage.getItem('user_id')) {
+                if (board['user_id'] === 0) {
                     await createBoard(board);
                 }
-            }
-            else {
-                if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))){
+            } else {
+                if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))) {
                     await createBoard(board);
                 }
             }
@@ -225,10 +224,23 @@ export async function refresh_after_click() {
     document.getElementById('root').innerHTML = ""
     addButtonNewBoard();
     for (let board of boards) {
-        await createBoard(board);
-        for(let dict of listOfShowHideButtonDict){
-            if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards'){
-                document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
+        if (!sessionStorage.getItem('user_id')) {
+            if (board['user_id'] === 0) {
+                await createBoard(board);
+                for (let dict of listOfShowHideButtonDict) {
+                    if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                        document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
+                    }
+                }
+            }
+        } else {
+            if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))) {
+                await createBoard(board);
+                for (let dict of listOfShowHideButtonDict) {
+                    if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                        document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
+                    }
+                }
             }
         }
     }
