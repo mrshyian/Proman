@@ -47,10 +47,12 @@ export let dataHandler = {
         const data = { 'id': boardId };
         await apiDelete('/api/boards', data);
     },
-    updateBoardTitle: async function (newTitle, boardId) {
+    updateBoardTitle: async function (newTitle, boardId, user_name, user_id) {
         const data = {
             'id': boardId,
-            'title': newTitle
+            'title': newTitle,
+            'user_name': user_name,
+            'user_id': user_id
         };
         await apiPut(`/api/boards`, data);
     },

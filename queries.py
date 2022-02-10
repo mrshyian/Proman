@@ -87,14 +87,16 @@ def delete_column(column_id):
     )
 
 
-def update_board_title(board_id, new_title):
+def update_board_title(board_id, new_title, user_name, user_id):
     data_manager.execute_insert(
         """
             UPDATE boards
-            SET title = %(new_title)s
+            SET title = %(new_title)s, user_id = %(user_id)s, user_name = %(user_name)s
             WHERE id = %(board_id)s;""",
         {"board_id": board_id,
-         "new_title": new_title}
+         "new_title": new_title,
+         "user_id": user_id,
+         "user_name": user_name}
     )
 
 
