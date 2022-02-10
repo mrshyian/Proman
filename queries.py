@@ -1,10 +1,10 @@
 import data_manager
 
 
-def insert_new_board(user_id):
+def insert_new_board(user_id, user_name):
     data_manager.execute_insert(
-        """INSERT INTO boards (title, user_id) VALUES ('NEW BOARD', %(user_id)s);""",
-        {'user_id': user_id}
+        """INSERT INTO boards (title, user_id, user_name) VALUES ('NEW BOARD', %(user_id)s, %(user_name)s);""",
+        {'user_id': user_id, 'user_name': user_name}
 
     )
     response = data_manager.execute_select(

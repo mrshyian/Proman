@@ -24,10 +24,9 @@ def index():
 def get_boards():
     if request.method == 'POST':
         if session:
-            print(session['id'])
-            return queries.insert_new_board(session['id'])
+            return queries.insert_new_board(session['id'], session['name'])
         else:
-            return queries.insert_new_board(0)
+            return queries.insert_new_board(0, 'Public')
     elif request.method == 'PUT':
         board_id = request.json['id']
         new_title = request.json['title']

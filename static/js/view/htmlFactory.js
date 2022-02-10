@@ -34,7 +34,7 @@ function boardBuilder(board) {
     //<img class="icon_expand"/> button for show cards
     return `<div class="board" data-board-id="${board.id}">
                <div class="board-header">
-                  <div class="board-title" data-board-id="${board.id}">${board.title}</div> 
+                  <div class="board-title" data-board-id="${board.id}">${board.title} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ${board['user_name']}</div> 
                   <div class="board-options">
                       <button class="btns toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                       <button class="btns add-card-button" data-board-id="${board.id}">Add Card</button>
