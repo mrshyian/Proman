@@ -159,7 +159,7 @@ async function createNewColumn(clickEvent) {
         const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
         showHideBoardButton.click();
     } else {
-        alert('So much columns')
+        alert('Too many columns')
     }
 }
 

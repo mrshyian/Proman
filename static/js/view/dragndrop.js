@@ -2,18 +2,17 @@ import {dataHandler} from "../data/dataHandler.js";
 
 
 export function initDragAndDrop() {
-
     let draggables = document.querySelectorAll(".draggable");
     let dropZones = document.querySelectorAll(".drop-zone");
     initDraggables(draggables);
     initDropZones(dropZones);
 }
 
+
 export function initDraggables(draggables) {
     for (const draggable of draggables) {
         initDraggable(draggable);
     }
-
 }
 
 export function initDropZones(dropZones) {

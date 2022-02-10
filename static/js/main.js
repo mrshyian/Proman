@@ -8,7 +8,7 @@ function init() {
   initRenameModal();
   initRenameCardModal();
   initRenameColumnModal();
-  setInterval(function () {refresh_after_click()}, 10000);
+  // setInterval(function () {refresh_after_click()}, 10000);
 }
 
 init();
