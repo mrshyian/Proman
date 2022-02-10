@@ -13,12 +13,12 @@ def establish_connection(connection_data=None):
     if connection_data is None:
         connection_data = get_connection_data()
     try:
-        # connect_str = os.environ.get('DATABASE_URL')
-        connect_str = "dbname={} user={} host={} password={} port={}".format(connection_data['dbname'],
-                                                                             connection_data['user'],
-                                                                             connection_data['host'],
-                                                                             connection_data['password'],
-                                                                             connection_data['port'])
+        connect_str = os.environ.get('DATABASE_URL')
+        # connect_str = "dbname={} user={} host={} password={} port={}".format(connection_data['dbname'],
+        #                                                                      connection_data['user'],
+        #                                                                      connection_data['host'],
+        #                                                                      connection_data['password'],
+        #                                                                      connection_data['port'])
         # connect_str = "dbname={} user={} host={} password={}".format(connection_data['dbname'],
         #                                                              connection_data['user'],
         #                                                              connection_data['host'],
@@ -39,22 +39,16 @@ def get_connection_data(db_name=None):
     with :MY__PSQL_: prefix
     :db_name: optional parameter. By default it uses the environment variable value.
     """
-    # return os.environ.get('DATABASE_URL')
-    if db_name is None:
-        db_name = os.environ.get('MY_PSQL_DBNAME')
-
-    return {
-        'dbname': 'ProMan',
-        'user': 'postgres',
-        'host': 'localhost',
-        'password': '43676321',
-        'port': 5433
-    }
+    return os.environ.get('DATABASE_URL')
+    # if db_name is None:
+    #     db_name = os.environ.get('MY_PSQL_DBNAME')
+    #
     # return {
-    #     'dbname': db_name,
-    #     'user': os.environ.get('MY_PSQL_USER'),
-    #     'host': os.environ.get('MY_PSQL_HOST'),
-    #     'password': os.environ.get('MY_PSQL_PASSWORD')
+    #     'dbname': 'ProMan',
+    #     'user': 'postgres',
+    #     'host': 'localhost',
+    #     'password': '43676321',
+    #     'port': 5433
     # }
 
 
