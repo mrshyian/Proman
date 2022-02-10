@@ -144,15 +144,20 @@ async function addCard(clickEvent) {
 
 async function createNewColumn(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    await dataHandler.createNewColumn(boardId);
-    document.getElementById('root').innerHTML = ""
-    addButtonNewBoard()
-    const boards = await dataHandler.getBoards();
-    for (let board of boards) {
-        await createBoard(board);
+    var allColumns = await dataHandler.getStatuses(boardId);
+    if (allColumns.length<8) {
+        await dataHandler.createNewColumn(boardId);
+        document.getElementById('root').innerHTML = ""
+        addButtonNewBoard()
+        const boards = await dataHandler.getBoards();
+        for (let board of boards) {
+            await createBoard(board);
+        }
+        const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
+        showHideBoardButton.click();
+    } else {
+        alert('So much columns')
     }
-    const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    showHideBoardButton.click();
 }
 
 
