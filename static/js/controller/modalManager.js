@@ -1,5 +1,6 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
+import {refresh_after_click} from "./boardsManager.js";
 
 
 export function initRenameModal(){
@@ -16,6 +17,7 @@ export function initRenameModal(){
         await dataHandler.updateBoardTitle(value, boardId);
 
         renameBoard(boardId, value);
+        await refresh_after_click()
     })
 }
 
@@ -34,6 +36,7 @@ export function initRenameCardModal(){
         await dataHandler.updateCardTitle(value, cardId);
 
         renameCard(cardId, value);
+        await refresh_after_click()
     })
 }
 
@@ -70,6 +73,7 @@ export function initRenameColumnModal(){
         await dataHandler.updateColumnTitle(value, columnId);
 
         renameColumn(columnId, value);
+        await refresh_after_click()
     })
 }
 

@@ -5,6 +5,7 @@ import {closeModal, changeArchivedModalInnerHTML} from "./modalManager.js";
 import {cardsManager, deleteButtonHandler, changeCardName} from "./cardsManager.js";
 import * as dnd from "../view/dragndrop.js";
 
+
 export let boardsManager = {
     loadBoards: async function () {
         addButtonNewBoard();
@@ -35,6 +36,7 @@ async function deleteBoard(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     clickEvent.target.parentElement.parentElement.parentElement.remove();
     await dataHandler.deleteAnyBoard(boardId);
+    await refresh_after_click()
 }
 
 function addButtonNewBoard() {
@@ -51,6 +53,7 @@ function addButtonNewBoard() {
 async function createNewBoard() {
     const board = await dataHandler.createNewBoard();
     await createBoard(board);
+    await refresh_after_click()
 }
 
 async function createBoard(board) {
@@ -85,12 +88,12 @@ async function createBoard(board) {
     domManager.addEventListener(
         `.archived-cards-button[data-board-id="${board.id}"]`,
         "click",
-        () =>  showArchivedCardList(board)
+        () => showArchivedCardList(board)
     );
 }
 
 
-function changeBoardName(clickEvent) {
+async function changeBoardName(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     const boards = document.getElementsByClassName("board-title");
     for (let board of boards) {
@@ -136,14 +139,7 @@ async function addCard(clickEvent) {
 async function createNewColumn(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     await dataHandler.createNewColumn(boardId);
-    document.getElementById('root').innerHTML = ""
-    addButtonNewBoard()
-    const boards = await dataHandler.getBoards();
-    for (let board of boards) {
-        await createBoard(board);
-    }
-    const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    showHideBoardButton.click();
+    await refresh_after_click()
 }
 
 
@@ -168,37 +164,60 @@ async function deleteColumn(clickEvent) {
     const statusId = clickEvent.target.dataset.statusId;
     clickEvent.target.parentNode.remove();
     await dataHandler.deleteAnyColumn(statusId);
+    await refresh_after_click()
 }
 
-function changeColumnName(clickEvent) {
+async function changeColumnName(clickEvent) {
     let statusId = clickEvent.target.dataset.statusId;
     activateRenameColumnModal(statusId);
+    await refresh_after_click()
 }
 
 function activateRenameColumnModal(statusId) {
     const input = document.getElementById('new-name-for-column');
-    input.value =  "";
+    input.value = "";
 
     $("#modal-for-rename-column").modal();
     document.getElementById("submit-button-rename-column").setAttribute('data-column-id', statusId);
 }
 
-async function showArchivedCardList(board){
+async function showArchivedCardList(board) {
     let archivedCardListModal = document.getElementById('modal-for-archived-cards');
 
-    if (!archivedCardListModal){
+    if (!archivedCardListModal) {
         const renameModal = document.getElementById('modal-for-rename');
         archivedCardListModal = renameModal.cloneNode(true);
         archivedCardListModal.setAttribute('id', 'modal-for-archived-cards');
 
         const modalHeader = archivedCardListModal.querySelector('.modal-header');
-        modalHeader.insertAdjacentHTML('beforeend','<span class="modal-close" style="position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray; text-align: center;">x</span>')
+        modalHeader.insertAdjacentHTML('beforeend', '<span class="modal-close" style="position: absolute; top: 5%; right: 1%;  width: 20px; cursor: pointer; background-color: lightgray; text-align: center;">x</span>')
         const modalCloseButton = modalHeader.querySelector('span.modal-close');
         modalCloseButton.addEventListener('click', closeModal);
     }
     await changeArchivedModalInnerHTML(board, archivedCardListModal);
     const body = document.getElementsByTagName('body')[0];
-    body.insertBefore(archivedCardListModal,null);
+    body.insertBefore(archivedCardListModal, null);
     $("#modal-for-archived-cards").modal();
 }
 
+export async function refresh_after_click() {
+    const boards = await dataHandler.getBoards();
+    let listOfShowHideButtonDict = [];
+    for (let board of boards) {
+        let showHideButtonDict = {};
+        showHideButtonDict['button_content'] = document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).textContent;
+        showHideButtonDict['board_id'] = board.id;
+        listOfShowHideButtonDict.push(showHideButtonDict);
+    }
+    console.log(listOfShowHideButtonDict);
+    document.getElementById('root').innerHTML = ""
+    addButtonNewBoard();
+    for (let board of boards) {
+        await createBoard(board);
+        for (let dict of listOfShowHideButtonDict) {
+            if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click();
+            }
+        }
+    }
+}
