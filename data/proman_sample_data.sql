@@ -40,7 +40,8 @@ CREATE TABLE statuses_and_boards (
 
 CREATE TABLE boards (
     id          SERIAL PRIMARY KEY  NOT NULL,
-    title       VARCHAR(200)        NOT NULL
+    title       VARCHAR(200)        NOT NULL,
+    user_id     INTEGER
 );
 
 CREATE TABLE cards (
@@ -75,8 +76,8 @@ INSERT INTO statuses(title) VALUES ('in progress');
 INSERT INTO statuses(title) VALUES ('testing');
 INSERT INTO statuses(title) VALUES ('done');
 
-INSERT INTO boards(title) VALUES ('Board 1');
-INSERT INTO boards(title) VALUES ('Board 2');
+INSERT INTO boards(title, user_id) VALUES ('Board 1', 0);
+INSERT INTO boards(title, user_id) VALUES ('Board 2', 0);
 
 INSERT INTO statuses_and_boards(board_id, status_id) VALUES (1, 1);
 INSERT INTO statuses_and_boards(board_id, status_id) VALUES (1, 2);
