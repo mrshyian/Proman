@@ -26,25 +26,28 @@ export let boardsManager = {
 
 
 async function showHideButtonHandler(clickEvent) {
-    const buttonName = clickEvent.target.textContent;
-    const boardId = clickEvent.target.dataset.boardId;
-    if (buttonName === 'Show Cards') {
+    const buttonName = clickEvent.target.parentElement.dataset.btnName;
+    const boardId = clickEvent.target.parentElement.dataset.boardId;
+    if (buttonName === 'show') {
         const statusContent = await statusColumnsBuilder(boardId);
         domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, statusContent);
         await cardsManager.loadCards(boardId);
         await addEventOnAllColumns(boardId);
-        clickEvent.target.innerHTML = 'Hide Cards'
-    } else if (buttonName === 'Hide Cards') {
-        clickEvent.target.innerHTML = 'Show Cards'
+        clickEvent.target.parentElement.setAttribute('data-btn-name','hide');
+        clickEvent.target.parentElement.innerHTML = '<i class="material-icons-outlined">expand_less</i>';
+    } else if (buttonName === 'hide') {
+        clickEvent.target.parentElement.setAttribute('data-btn-name','show');
+        clickEvent.target.parentElement.innerHTML = '<i class="material-icons-outlined">expand_more</i>';
         await cardsManager.hideCards(boardId);
     }
 }
 
 async function deleteBoard(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    clickEvent.target.parentElement.parentElement.parentElement.remove();
+    const boardId = clickEvent.target.parentElement.dataset.boardId;
+    clickEvent.target.parentElement.parentElement.parentElement.parentElement.remove();
     await dataHandler.deleteAnyBoard(boardId);
 }
+
 
 function addButtonNewBoard() {
     const content = newBoardButtonBuilder()
@@ -120,13 +123,13 @@ function activateRenameBoardModal(boardId) {
 
 
 async function addCard(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
+    const boardId = clickEvent.target.parentElement.dataset.boardId;
     const card = await dataHandler.createNewCard(boardId);
     const cardStatusId = card["status_id"];
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
 
-    domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
+    domManager.addChild(`.board-columns[data-board-id="${boardId}"] .board-column[data-status-id="${cardStatusId}"] .board-column-content[data-status-id="${cardStatusId}"]`, content);
     domManager.addEventListener(
         `.card` + `.draggable[data-card-id="${card.id}"]>.card-content>.card-options>.card-remove`,
         "click",
@@ -143,8 +146,8 @@ async function addCard(clickEvent) {
 
 
 async function createNewColumn(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    var allColumns = await dataHandler.getStatuses(boardId);
+    const boardId = clickEvent.target.parentElement.dataset.boardId;
+    let allColumns = await dataHandler.getStatuses(boardId);
     if (allColumns.length<8) {
         await dataHandler.createNewColumn(boardId);
         document.getElementById('root').innerHTML = ""
@@ -179,8 +182,9 @@ async function addEventOnAllColumns(boardId) {
 
 
 async function deleteColumn(clickEvent) {
-    const statusId = clickEvent.target.dataset.statusId;
-    clickEvent.target.parentNode.remove();
+    const statusId = clickEvent.target.parentElement.dataset.statusId;
+    console.log(statusId);
+    clickEvent.target.parentElement.parentElement.parentElement.parentElement.remove();
     await dataHandler.deleteAnyColumn(statusId);
 }
 
