@@ -154,7 +154,15 @@ async function createNewColumn(clickEvent) {
         addButtonNewBoard()
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
-            await createBoard(board);
+            if (!sessionStorage.getItem('user_id')) {
+                if (board['user_id'] === 0) {
+                    await createBoard(board);
+                }
+            } else {
+                if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))) {
+                    await createBoard(board);
+                }
+            }
         }
         const showHideBoardButton = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
         showHideBoardButton.click();
