@@ -16,18 +16,31 @@ export function initRenameModal(){
         const boards = await dataHandler.getBoards();
         for (let board of boards){
             if(board.id === parseInt(boardId)){
+                if (board.user_id === parseInt(sessionStorage.getItem('user_id'))){
+                    valueForInnerHTML += '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+ board['user_name']
+                } else if (board.user_id === 0){
+                    valueForInnerHTML += '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Public'
+                }
 
-                valueForInnerHTML += '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'+ board['user_name']
+
             }
         }
-        if (sessionStorage.getItem('user_name')){
-            let user_id = sessionStorage.getItem('user_id');
-            let user_name = sessionStorage.getItem('user_name')
-           await dataHandler.updateBoardTitle(valueForDb, boardId, user_name, user_id);
-        } else {
-             await dataHandler.updateBoardTitle(valueForDb, boardId, 'Public', 0);
+        for (let board of boards) {
+            if (board.id === parseInt(boardId)) {
+                if (sessionStorage.getItem('user_name')) {
+                    let user_id = sessionStorage.getItem('user_id');
+                    let user_name = sessionStorage.getItem('user_name')
+                    if (!board.user_id === 0) {
+                        await dataHandler.updateBoardTitle(valueForDb, boardId, user_name, user_id);
+                    }else {
+                        await dataHandler.updateBoardTitle(valueForDb, boardId, 'Public', 0);
+                    }
+                } else {
+                    await dataHandler.updateBoardTitle(valueForDb, boardId, 'Public', 0);
+                }
+            }
+            renameBoard(boardId, valueForInnerHTML);
         }
-        renameBoard(boardId, valueForInnerHTML);
     })
 }
 

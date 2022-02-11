@@ -33,10 +33,10 @@ async function showHideButtonHandler(clickEvent) {
         domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, statusContent);
         await cardsManager.loadCards(boardId);
         await addEventOnAllColumns(boardId);
-        clickEvent.target.parentElement.setAttribute('data-btn-name','hide');
+        clickEvent.target.parentElement.setAttribute('data-btn-name', 'hide');
         clickEvent.target.parentElement.innerHTML = '<i class="material-icons-outlined">expand_less</i>';
     } else if (buttonName === 'hide') {
-        clickEvent.target.parentElement.setAttribute('data-btn-name','show');
+        clickEvent.target.parentElement.setAttribute('data-btn-name', 'show');
         clickEvent.target.parentElement.innerHTML = '<i class="material-icons-outlined">expand_more</i>';
         await cardsManager.hideCards(boardId);
     }
@@ -148,7 +148,7 @@ async function addCard(clickEvent) {
 async function createNewColumn(clickEvent) {
     const boardId = clickEvent.target.parentElement.dataset.boardId;
     let allColumns = await dataHandler.getStatuses(boardId);
-    if (allColumns.length<8) {
+    if (allColumns.length < 8) {
         await dataHandler.createNewColumn(boardId);
         document.getElementById('root').innerHTML = ""
         addButtonNewBoard()
@@ -225,11 +225,10 @@ export async function refresh_after_click() {
     let listOfShowHideButtonDict = [];
     for (let board of boards) {
         let showHideButtonDict = {};
-        showHideButtonDict['button_content'] = document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).textContent;
+        showHideButtonDict['button_content'] = document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).getAttribute('data-btn-name');
         showHideButtonDict['board_id'] = board.id;
         listOfShowHideButtonDict.push(showHideButtonDict);
     }
-    console.log(listOfShowHideButtonDict);
     document.getElementById('root').innerHTML = ""
     addButtonNewBoard();
     for (let board of boards) {
@@ -237,7 +236,7 @@ export async function refresh_after_click() {
             if (board['user_id'] === 0) {
                 await createBoard(board);
                 for (let dict of listOfShowHideButtonDict) {
-                    if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                    if (dict['board_id'] === board.id && dict['button_content'] === 'hide') {
                         document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
                     }
                 }
@@ -246,7 +245,7 @@ export async function refresh_after_click() {
             if (board['user_id'] === 0 || board['user_id'] === parseInt(sessionStorage.getItem('user_id'))) {
                 await createBoard(board);
                 for (let dict of listOfShowHideButtonDict) {
-                    if (dict['board_id'] === board.id && dict['button_content'] === 'Hide Cards') {
+                    if (dict['board_id'] === board.id && dict['button_content'] === 'hide') {
                         document.querySelector(`.toggle-board-button[data-board-id="${board.id}"]`).click()
                     }
                 }
