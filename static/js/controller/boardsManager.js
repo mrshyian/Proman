@@ -85,11 +85,6 @@ async function createBoard(board) {
         changeBoardName
     );
     domManager.addEventListener(
-        `.add-card-button[data-board-id="${board.id}"]`,
-        "click",
-        addCard
-    );
-    domManager.addEventListener(
         `.add-column-button[data-board-id="${board.id}"]`,
         "click",
         createNewColumn
@@ -123,8 +118,9 @@ function activateRenameBoardModal(boardId) {
 
 
 async function addCard(clickEvent) {
-    const boardId = clickEvent.target.parentElement.dataset.boardId;
-    const card = await dataHandler.createNewCard(boardId);
+    const boardId = clickEvent.target.parentElement.parentElement.parentElement.parentElement.parentElement.dataset.boardId;
+    const statusId = clickEvent.target.parentElement.dataset.statusId;
+    const card = await dataHandler.createNewCard(boardId, statusId);
     const cardStatusId = card["status_id"];
     const cardBuilder = htmlFactory(htmlTemplates.card);
     const content = cardBuilder(card);
@@ -184,6 +180,11 @@ async function addEventOnAllColumns(boardId) {
             `.board-column-title[data-status-id="${status.id}"]`,
             "click",
             changeColumnName
+        );
+         domManager.addEventListener(
+            `.add-column[data-status-id="${status.id}"]`,
+            "click",
+            addCard
         );
     }
 }

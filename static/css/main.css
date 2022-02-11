@@ -456,6 +456,7 @@ h1{
 
 /* custom icons */
 .material-icons-outlined {
+    cursor: pointer;
     font-size: 16px;
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;

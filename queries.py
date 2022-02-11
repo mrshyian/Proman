@@ -31,13 +31,8 @@ def insert_new_board(user_id, user_name):
 #         return response[0]
 
 
-def insert_new_card(board_id):
-    status_id = data_manager.execute_select(
-        f"""SELECT status_id FROM statuses_and_boards
-           WHERE  board_id = {board_id}
-           ORDER BY status_id ASC
-           LIMIT 1;"""
-    )[0]['status_id']
+def insert_new_card(board_id, status_id):
+
     print(status_id)
     data_manager.execute_insert(
         """INSERT INTO cards (board_id, status_id, title, card_order, is_archived) 

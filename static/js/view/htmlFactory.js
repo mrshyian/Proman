@@ -31,7 +31,6 @@ function boardBuilder(board) {
                   <div class="board-title" data-board-id="${board.id}">${board.title} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ${board['user_name']}</div> 
                   <div class="board-options">
                       <button class="btns toggle-board-button" data-board-id="${board.id}" data-btn-name="show"><i class="material-icons-outlined">expand_more</i></button>
-                      <button class="btns add-card-button" data-board-id="${board.id}"><i class="material-icons-outlined">add</i></button>
                       <button class="btns add-column-button" data-board-id="${board.id}"><i class="material-icons-outlined">post_add</i></button>
                       <button class="btns archived-cards-button" data-board-id="${board.id}"><i class="material-icons-outlined">inventory_2</i></button>
                       <button class="btns delete-board-button" data-board-id="${board.id}"><i class="material-icons-outlined">delete</i></button>

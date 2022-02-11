@@ -31,8 +31,8 @@ export let dataHandler = {
         return response;
 
     },
-    createNewCard: async function (boardId) {
-        const response = await apiPost(`/api/boards/${boardId}/card/`);
+    createNewCard: async function (boardId, statusId) {
+        const response = await apiPost(`/api/boards/${boardId}/card/${statusId}`);
         return response;
     },
     deleteCard: async function (cardId) {
